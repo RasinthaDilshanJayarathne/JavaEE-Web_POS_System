@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="webpos">
+    <output-path>$PROJECT_DIR$/out/artifacts/webpos</output-path>
+    <root id="archive" name="webpos.war">
+      <element id="javaee-facet-resources" facet="JavaEE-Web_POS_System/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="commons-dbcp2-2.9.0" />
+        </element>
+        <element id="directory" name="classes">
+          <element id="module-output" name="JavaEE-Web_POS_System" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
