@@ -50,3 +50,14 @@ CREATE TABLE IF NOT EXISTS `Order Detail`(
     );
 SHOW TABLES ;
 DESCRIBE `Order Detail`;
+
+DROP TABLE IF EXISTS `doctor patient`;
+CREATE TABLE IF NOT EXISTS `doctor patient`(
+    d_id VARCHAR(10),
+    p_id VARCHAR(10),
+    CONSTRAINT PRIMARY KEY (d_id, p_id),
+    CONSTRAINT FOREIGN KEY (d_id) REFERENCES doctor (d_id) ON DELETE CASCADE ON UPDATE CASCADE ,
+    CONSTRAINT FOREIGN KEY (p_id) REFERENCES patient (p_id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+SHOW TABLES ;
+DESCRIBE `doctor patient`;
