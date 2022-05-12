@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @WebServlet(urlPatterns = "/customer")
 public class CustomerServlet extends HttpServlet {
@@ -23,9 +20,6 @@ public class CustomerServlet extends HttpServlet {
         try {
 
             resp.setContentType("application/json");
-
-            /*resp.addHeader("Institute","IJSE");
-            resp.addHeader("Course","GDSE");*/
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
@@ -51,6 +45,40 @@ public class CustomerServlet extends HttpServlet {
             e.printStackTrace();
         }catch (SQLException throwables){
             throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String customerId = req.getParameter("txtPopCustId");
+        String customerName = req.getParameter("txtPopCustName");
+        String customerAddress = req.getParameter("txtPopCustAddress");
+        String customerContact = req.getParameter("txtPopCustPhone");
+
+        System.out.println(customerId + " " + customerName + " " + customerAddress+" "+customerContact);
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/company", "root", "1234");
+
+            PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer VALUES (?,?,?,?)");
+            pstm.setObject(1, customerId);
+            pstm.setObject(2, customerName);
+            pstm.setObject(3, customerAddress);
+            pstm.setObject(4, customerContact);
+            boolean b = pstm.executeUpdate() > 0;
+            PrintWriter writer = resp.getWriter();
+
+            if (b) {
+                writer.write("Customer Added");
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            resp.sendError(500,e.getMessage());
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+            resp.sendError(500,throwables.getMessage());
         }
     }
 }
