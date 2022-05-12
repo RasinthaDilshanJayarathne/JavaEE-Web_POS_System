@@ -578,7 +578,7 @@
 
 </head>
 <body>
-<div class="bg-dark p-3" style="height: 100%">
+<div class="bg-dark p-3" style="height: 100%;width: 100%">
     <div class="row  pb-2 bg-light" style="height: 100%">
         <div class="col-sm-8" style="height: 100%">
             <div class="card mt-2" style=" width: 97vw; height: 10vh">
@@ -588,7 +588,6 @@
                     <div style="position: absolute;left: 87vw;top: 0vh;">
                         <img src="assets/image/logo1.png" alt="" style="width: 58%">
                     </div>
-
 
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -730,6 +729,7 @@
                                             </button>
                                             <button class="btn btn-warning" id="btnCustUpdate">Update</button>
                                             <button class="btn btn-primary" id="btnCustSearch">Search</button>
+                                            <button class="btn btn-warning" id="btnLoadAll">Show Data</button>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-5">
@@ -790,38 +790,39 @@
                                             </div>
                                             <div class="modal-body">
                                                 <section class="row" style="width: 100%">
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label" for="txtPopCustId">ID</label>
-                                                        <input aria-describedby="idHelp" class="form-control"
-                                                               id="txtPopCustId"
-                                                               type="text" disabled>
-                                                        <div class="form-text" id="id"></div>
-                                                        <p><small class="text-danger p-1" id="error"></small></p>
-                                                    </div>
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label" for="txtPopCustName">Name</label>
-                                                        <input aria-describedby="nameHelp" class="form-control"
-                                                               id="txtPopCustName"
-                                                               type="text">
-                                                        <div class="form-text" id="name"></div>
-                                                        <p><small class="text-danger p-1" id="error1"></small></p>
-                                                    </div>
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label"
-                                                               for="txtPopCustAddress">Address</label>
-                                                        <input aria-describedby="addressHelp" class="form-control"
-                                                               id="txtPopCustAddress" type="text">
-                                                        <div class="form-text" id="address"></div>
-                                                        <p><small class="text-danger p-1" id="error2"></small></p>
-                                                    </div>
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label" for="txtPopCustPhone">Telephone
-                                                            No</label>
-                                                        <input aria-describedby="telNoHelp" class="form-control"
-                                                               id="txtPopCustPhone" type="text">
-                                                        <div class="form-text" id="telNo"></div>
-                                                        <p><small class="text-danger p-1" id="error3"></small></p>
-                                                    </div>
+                                                    <form id="customerForm">
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label" for="txtPopCustId" >ID</label>
+                                                            <input aria-describedby="idHelp" class="form-control" id="txtPopCustId"
+                                                                   type="text" name="txtPopCustId" disabled>
+                                                            <div class="form-text" id="id"></div>
+                                                            <p><small class="text-danger p-1" id="error"></small></p>
+                                                        </div>
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label" for="txtPopCustName">Name</label>
+                                                            <input aria-describedby="nameHelp" class="form-control"
+                                                                   id="txtPopCustName"
+                                                                   type="text" name="txtPopCustName">
+                                                            <div class="form-text" id="name"></div>
+                                                            <p><small class="text-danger p-1" id="error1"></small></p>
+                                                        </div>
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label"
+                                                                   for="txtPopCustAddress">Address</label>
+                                                            <input aria-describedby="addressHelp" class="form-control"
+                                                                   id="txtPopCustAddress" type="text" name="txtPopCustAddress">
+                                                            <div class="form-text" id="address"></div>
+                                                            <p><small class="text-danger p-1" id="error2"></small></p>
+                                                        </div>
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label" for="txtPopCustPhone">Telephone
+                                                                No</label>
+                                                            <input aria-describedby="telNoHelp" class="form-control"
+                                                                   id="txtPopCustPhone" type="text" name="txtPopCustPhone">
+                                                            <div class="form-text" id="telNo"></div>
+                                                            <p><small class="text-danger p-1" id="error3"></small></p>
+                                                        </div>
+                                                    </form>
                                                 </section>
                                             </div>
                                             <div class="modal-footer">
@@ -832,10 +833,7 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </section>
-
-
                         </div>
                     </div>
                 </div>
@@ -1235,6 +1233,35 @@
 </div>
 
 <script src="assets/jquery/jquery-3.6.0.min.js"></script>
+
+<script>
+    function loadAllCustomer(){
+        $("#customerTable").empty();
+        $.ajax({
+            url: "customer",
+            method : "GET",
+            /* dataType :"json",*/
+            success: function (resp) {
+                for (var i in resp) {
+                    var id = resp[i].id;
+                    var name = resp[i].name;
+                    var address = resp[i].address;
+                    var contact = resp[i].contact;
+
+                    var row = `<tr>
+                                <td>${id}</td><td>${name}</td><td>${address}</td><td>${contact}</td>
+                                <td><button id="btnCustomerDelete" type="button" class="btn-sm btn-danger">Delete</button></td>
+                                </tr>`;
+                    $("#customerTable").append(row);
+                }
+            }
+        });
+    }
+
+    $("#btnLoadAll").click(function (){
+        loadAllCustomer();
+    });
+</script>
 
 
 <!--<script src="controller/CustomerController.js"></script>

@@ -20,36 +20,32 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         try {
-            resp.setContentType("application/json");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/WebSuperMarket", "root", "1234");
-            PrintWriter writer = resp.getWriter();
 
+            resp.setContentType("application/json");
+
+            /*resp.addHeader("Institute","IJSE");
+            resp.addHeader("Course","GDSE");*/
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
             ResultSet rst = connection.prepareStatement("SELECT * FROM Customer").executeQuery();
-            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+            String allRecodes="";
 
             while (rst.next()){
                 String id = rst.getString(1);
                 String name = rst.getString(2);
                 String address = rst.getString(3);
                 String contact = rst.getString(4);
+                System.out.println(id+" "+name+" "+address);
 
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                objectBuilder.add("id",id);
-                objectBuilder.add("name",name);
-                objectBuilder.add("address",address);
-                objectBuilder.add("contact",contact);
-
-                arrayBuilder.add(objectBuilder.build());
+                String customer = "{\"id\":\"" + id + "\",\"name\":\"" + name + "\",\"address\":\"" + address + "\",\"contact\":\"" + contact + "\"},";
+                allRecodes = allRecodes + customer;
             }
 
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 200);
-            response.add("message", "Done");
-            response.add("data", arrayBuilder.build());
-            writer.print(response.build());
+            String finalJson = "[" + allRecodes.substring(0, allRecodes.length() - 1) + "]";
+            PrintWriter writer = resp.getWriter();
+            writer.write(finalJson);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
