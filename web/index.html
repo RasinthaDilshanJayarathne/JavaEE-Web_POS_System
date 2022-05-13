@@ -902,59 +902,58 @@
                                      id="exampleModal"
                                      tabindex="-1">
                                     <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header bg-dark">
-                                                <h5 class="modal-title" id="exampleModalLabel" style="color: white">Item
-                                                    Registration
-                                                    Form</h5>
-                                                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
-                                                        type="button"></button>
+                                        <form id="itemForm">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-dark">
+                                                    <h5 class="modal-title" id="exampleModalLabel" style="color: white">Item
+                                                        Registration
+                                                        Form</h5>
+                                                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                            type="button"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <section class="row" style="width: 100%">
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label" for="txtPopItemCode">Item Code</label>
+                                                            <input aria-describedby="idHelp" class="form-control"
+                                                                   id="txtPopItemCode" type="text" name="txtPopItemCode">
+                                                            <div class="form-text" id="codeHelp"></div>
+                                                            <p><small class="text-danger p-1" id="popItemError"></small></p>
+                                                        </div>
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label" for="txtPopItemName">Name</label>
+                                                            <input aria-describedby="nameHelp2" class="form-control"
+                                                                   id="txtPopItemName" type="text" name="txtPopItemName">
+                                                            <div class="form-text" id="nameHelp2"></div>
+                                                            <p><small class="text-danger p-1" id="popItemError1"></small>
+                                                            </p>
+                                                        </div>
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label"
+                                                                   for="txtPopItemQuntity">Quntity</label>
+                                                            <input aria-describedby="telNoHelp" class="form-control"
+                                                                   id="txtPopItemQuntity" type="text" name="txtPopItemQuntity">
+                                                            <div class="form-text" id="quntityHelp"></div>
+                                                            <p><small class="text-danger p-1" id="popItemError2"></small>
+                                                            </p>
+                                                        </div>
+                                                        <div class="mb-2 col-6">
+                                                            <label class="form-label" for="txtPopItemPrice">Price</label>
+                                                            <input aria-describedby="addressHelp" class="form-control"
+                                                                   id="txtPopItemPrice" type="text" name="txtPopItemPrice">
+                                                            <div class="form-text" id="priceHelp"></div>
+                                                            <p><small class="text-danger p-1" id="popItemError3"></small>
+                                                            </p>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-success  btn-sm" id="popItemBtnAdd" type="button">
+                                                        +Add
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="modal-body">
-                                                <section class="row" style="width: 100%">
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label" for="txtPopItemCode">Item Code</label>
-                                                        <input aria-describedby="idHelp" class="form-control"
-                                                               disabled
-                                                               id="txtPopItemCode" type="text">
-                                                        <div class="form-text" id="codeHelp"></div>
-                                                        <p><small class="text-danger p-1" id="popItemError"></small></p>
-                                                    </div>
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label" for="txtPopItemName">Name</label>
-                                                        <input aria-describedby="nameHelp2" class="form-control"
-                                                               id="txtPopItemName"
-                                                               type="text">
-                                                        <div class="form-text" id="nameHelp2"></div>
-                                                        <p><small class="text-danger p-1" id="popItemError1"></small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label"
-                                                               for="txtPopItemQuntity">Quntity</label>
-                                                        <input aria-describedby="telNoHelp" class="form-control"
-                                                               id="txtPopItemQuntity" type="text">
-                                                        <div class="form-text" id="quntityHelp"></div>
-                                                        <p><small class="text-danger p-1" id="popItemError2"></small>
-                                                        </p>
-                                                    </div>
-                                                    <div class="mb-2 col-6">
-                                                        <label class="form-label" for="txtPopItemPrice">Price</label>
-                                                        <input aria-describedby="addressHelp" class="form-control"
-                                                               id="txtPopItemPrice"
-                                                               type="text">
-                                                        <div class="form-text" id="priceHelp"></div>
-                                                        <p><small class="text-danger p-1" id="popItemError3"></small>
-                                                        </p>
-                                                    </div>
-                                                </section>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-success  btn-sm" id="popBtnAdd" type="button">
-                                                    +Add
-                                                </button>
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -1197,8 +1196,7 @@
 
                                                         <div class="mt-5 col-5 justify-content-lg-end col-md-4">
                                                             <button class="btn btn-danger  btn-sm w-100"
-                                                                    data-bs-toggle="modal" id="clear"
-                                                                    style="font-weight: bold"
+                                                                    data-bs-toggle="modal" id="clear" style="font-weight: bold"
                                                                     type="button" type="button">Clear Details
                                                             </button>
                                                         </div>
@@ -1324,6 +1322,55 @@
             success: function (resp) {
                 alert(resp)
                 loadAllCustomer();
+            },
+            error: function (ob, textStatus, error) {
+                alert(textStatus);
+                console.log(ob.responseText);
+            }
+        });
+    });
+
+</script>
+
+<script>
+
+    $("#item").click(function (){
+        loadAllItem();
+    })
+
+    function loadAllItem() {
+        $("#itemTable").empty();
+        $.ajax({
+            url: "item",
+            method: "GET",
+            /* dataType :"json",*/
+            success: function (resp) {
+                for (var i in resp) {
+                    var code = resp[i].code;
+                    var name = resp[i].name;
+                    var price = resp[i].price;
+                    var qtyOnHand = resp[i].qtyOnHand;
+
+                    var row = `<tr>
+                                <td>${code}</td><td>${name}</td><td>${price}</td><td>${qtyOnHand}</td>
+                                <td><button id="btnItemDelete" type="button" class="btn-sm btn-danger">Delete</button></td>
+                                </tr>`;
+                    $("#itemTable").append(row);
+                }
+            }
+        });
+    }
+
+    $("#popItemBtnAdd").click(function () {
+        let data = $("#itemTable").serialize();
+        console.log(data)
+        $.ajax({
+            url: "item",
+            method: "POST",
+            data: data,
+            success: function (resp) {
+                alert(resp)
+                loadAllItem();
             },
             error: function (ob, textStatus, error) {
                 alert(textStatus);
