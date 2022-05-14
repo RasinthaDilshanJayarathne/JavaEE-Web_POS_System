@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @WebServlet(urlPatterns = "/item")
 public class ItemServlet extends HttpServlet {
@@ -43,6 +40,36 @@ public class ItemServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }catch (SQLException throwables){
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String txtPopItemCode = req.getParameter("txtPopItemCode");
+        String txtPopItemName = req.getParameter("txtPopItemName");
+        String txtPopItemQuntity = req.getParameter("txtPopItemQuntity");
+        String txtPopItemPrice = req.getParameter("txtPopItemPrice");
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+
+            PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
+            pstm.setObject(1,txtPopItemCode);
+            pstm.setObject(2,txtPopItemName);
+            pstm.setObject(3,txtPopItemPrice);
+            pstm.setObject(4,txtPopItemQuntity);
+            boolean b = pstm.executeUpdate() > 0;
+            PrintWriter writer = resp.getWriter();
+
+            if (b) {
+                writer.write("Item Added");
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
