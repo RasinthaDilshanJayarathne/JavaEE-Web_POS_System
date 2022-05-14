@@ -614,10 +614,7 @@
                                     role="tab" type="button">Place Order
                             </button>
                         </li>
-
                     </ul>
-
-
                 </div>
             </div>
 
@@ -693,7 +690,6 @@
                                     </button>
                                 </div>
                             </div>
-
                             <!--small cards-->
 
                             <!--<div class="row mx-5 mt-4">
@@ -716,7 +712,6 @@
                                     </div>
                                 </div>
                             </div>-->
-
                         </div>
                     </div>
                 </div>
@@ -767,7 +762,6 @@
                                     </div>
                                 </section>
 
-
                                 <section class="row mt-4">
                                     <div class="col">
                                         <table class="table table-hover">
@@ -781,12 +775,10 @@
                                             </tr>
                                             </thead>
                                             <tbody id="customerTable">
-
                                             </tbody>
                                         </table>
                                     </div>
                                 </section>
-
 
                                 <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
                                      id="customerPopUp"
@@ -956,7 +948,6 @@
                                         </form>
                                     </div>
                                 </div>
-
                             </section>
 
                             <section class="row mt-4">
@@ -972,14 +963,11 @@
                                         </tr>
                                         </thead>
                                         <tbody id="itemTable">
-
                                         </tbody>
                                     </table>
                                 </div>
                             </section>
-
                         </div>
-
                     </div>
                 </div>
 
@@ -1239,8 +1227,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-
                                                 </form>
                                             </div>
                                         </div>
@@ -1266,8 +1252,6 @@
                                     </table>
                                 </section>
                             </section>
-
-
                         </div>
                     </div>
                 </div>
@@ -1283,115 +1267,8 @@
 
 <script src="assets/jquery/jquery-3.6.0.min.js"></script>
 
-<script>
-
-    $("#customer").click(function (){
-        loadAllCustomer();
-    })
-
-    function loadAllCustomer() {
-        $("#customerTable").empty();
-        $.ajax({
-            url: "customer",
-            method: "GET",
-            /* dataType :"json",*/
-            success: function (resp) {
-                for (var i in resp) {
-                    var id = resp[i].id;
-                    var name = resp[i].name;
-                    var address = resp[i].address;
-                    var contact = resp[i].contact;
-
-                    var row = `<tr>
-                                <td>${id}</td><td>${name}</td><td>${address}</td><td>${contact}</td>
-                                <td><button id="btnCustomerDelete" type="button" class="btn-sm btn-danger">Delete</button></td>
-                                </tr>`;
-                    $("#customerTable").append(row);
-                }
-            }
-        });
-    }
-
-    $("#popCustBtnAdd").click(function () {
-        let data = $("#customerForm").serialize();
-        console.log(data)
-        $.ajax({
-            url: "customer",
-            method: "POST",
-            data: data,
-            success: function (resp) {
-                alert(resp)
-                loadAllCustomer();
-            },
-            error: function (ob, textStatus, error) {
-                alert(textStatus);
-                console.log(ob.responseText);
-            }
-        });
-    });
-
-</script>
-
-<script>
-
-    $("#item").click(function (){
-        loadAllItem();
-    })
-
-    function loadAllItem() {
-        $("#itemTable").empty();
-        $.ajax({
-            url: "item",
-            method: "GET",
-            /* dataType :"json",*/
-            success: function (resp) {
-                for (var i in resp) {
-                    var code = resp[i].code;
-                    var name = resp[i].name;
-                    var price = resp[i].price;
-                    var qtyOnHand = resp[i].qtyOnHand;
-
-                    var row = `<tr>
-                                <td>${code}</td><td>${name}</td><td>${price}</td><td>${qtyOnHand}</td>
-                                <td><button id="btnItemDelete" type="button" class="btn-sm btn-danger">Delete</button></td>
-                                </tr>`;
-                    $("#itemTable").append(row);
-                }
-            }
-        });
-    }
-
-    $("#popItemBtnAdd").click(function () {
-        let data = $("#itemTable").serialize();
-        console.log(data)
-        $.ajax({
-            url: "item",
-            method: "POST",
-            data: data,
-            success: function (resp) {
-                alert(resp)
-                loadAllItem();
-            },
-            error: function (ob, textStatus, error) {
-                alert(textStatus);
-                console.log(ob.responseText);
-            }
-        });
-    });
-
-</script>
-
-
-<!--<script src="controller/CustomerController.js"></script>
-<script src="controller/ItemController.js"></script>
-<script src="controller/OrderDetailController.js"></script>
-<script src="controller/PlaceOrderController.js"></script>
-<script src="controller/DashboardController.js"></script>
-
-<script src="model/CustomerDTO.js"></script>
-<script src="model/ItemDTO.js"></script>
-<script src="model/OrderDTO.js"></script>
-<script src="model/OrderDetailDTO.js"></script>-->
+<script src="assets/JS/Customer.js"></script>
+<script src="assets/JS/Item.js"></script>
 
 <script crossorigin="anonymous"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
