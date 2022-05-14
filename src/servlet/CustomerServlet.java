@@ -55,8 +55,6 @@ public class CustomerServlet extends HttpServlet {
         String customerAddress = req.getParameter("txtPopCustAddress");
         String customerContact = req.getParameter("txtPopCustPhone");
 
-        System.out.println(customerId + " " + customerName + " " + customerAddress+" "+customerContact);
-
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
@@ -99,6 +97,40 @@ public class CustomerServlet extends HttpServlet {
 
             if (b) {
                 writer.write("Customer Deleted");
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            resp.sendError(500,e.getMessage());
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+            resp.sendError(500,throwables.getMessage());
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String customerId = req.getParameter("txtCustId");
+        String customerName = req.getParameter("txtCustName");
+        String customerAddress = req.getParameter("txtCustAddress");
+        String customerContact = req.getParameter("txtCustPhoneNo");
+
+        System.out.println(customerId + " " + customerName + " " + customerAddress+" "+customerContact);
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+
+            PreparedStatement pstm = connection.prepareStatement("UPDATE Customer SET cusName=?,cusAddress=?,cusTp=? WHERE cusId=?");
+            pstm.setObject(1, customerName);
+            pstm.setObject(2, customerAddress);
+            pstm.setObject(3, customerContact);
+            pstm.setObject(4, customerId);
+            boolean b = pstm.executeUpdate() > 0;
+            PrintWriter writer = resp.getWriter();
+
+            if (b) {
+                writer.write("Customer Updated");
             }
 
         } catch (ClassNotFoundException e) {

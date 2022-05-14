@@ -70,3 +70,17 @@ function bindClickEvent(){
 
     });
 }
+
+$("#btnCustUpdate").click(function (){
+    let fromData = $("#viewCustomerForm").serialize();
+    console.log(fromData);
+    $.ajax({
+        url:"customer?"+fromData,
+        method:"PUT",
+        //data: fromData,
+        success:function (res){
+            console.log(res)
+            loadAllCustomer();
+        }
+    })
+});

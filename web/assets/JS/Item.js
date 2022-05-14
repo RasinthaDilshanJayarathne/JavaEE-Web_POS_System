@@ -47,7 +47,6 @@ $("#btnItemDelete").click(function (){
         url:"item?code="+itemCode,
         method:"DELETE",
         //data :data,
-
         success : function (resp){
             console.log(resp);
             loadAllItem();
@@ -66,6 +65,18 @@ function bindClickEvents(){
         $("#txtItemName").val(name);
         $("#txtItemPrice").val(price);
         $("#txtItemQTYOnHand").val(qtyOnHand);
-
     });
 }
+
+$("#btnItemUpdate").click(function (){
+    let fromData = $("#viewItemForm").serialize();
+    $.ajax({
+        url:"item?"+fromData,
+        method:"PUT",
+        //data: fromData,
+        success:function (res){
+            console.log(res)
+            loadAllCustomer();
+        }
+    })
+});
