@@ -20,6 +20,21 @@ $("#popCustBtnAdd").click(function () {
     });
 });
 
+$("#btnCustomerDelete").click(function (){
+    let custId = $("#txtCustId").val();
+    $.ajax({
+        url:"customer?CustId="+custId,
+        method:"DELETE",
+        //data :data,
+
+        success : function (resp){
+            console.log(resp);
+            loadAllCustomer();
+        }
+    })
+
+});
+
 function loadAllCustomer() {
     $("#customerTable").empty();
     $.ajax({
@@ -33,18 +48,15 @@ function loadAllCustomer() {
                 var address = resp[i].address;
                 var contact = resp[i].contact;
 
-                var row = `<tr>
-                                <td>${id}</td><td>${name}</td><td>${address}</td><td>${contact}</td>
-                                <td><button id="btnCustomerDelete" type="button" class="btn-sm btn-danger">Delete</button></td>
-                                </tr>`;
+                var row = `<tr><td>${id}</td><td>${name}</td><td>${address}</td><td>${contact}</td></tr>`;
                 $("#customerTable").append(row);
             }
-            bindClickEvents();
+            bindClickEvent();
         }
     });
 }
 
-function bindClickEvents(){
+function bindClickEvent(){
     $("#customerTable>tr").click(function (){
         let id=$(this).children().eq(0).text();
         let name=$(this).children().eq(1).text();

@@ -735,6 +735,7 @@
                                             </button>
                                             </button>
                                             <button class="btn btn-warning" id="btnCustUpdate">Update</button>
+                                            <button class="btn btn-danger" id="btnCustomerDelete">Delete</button>
                                             <button class="btn btn-primary" id="btnCustSearch">Search</button>
                                         </div>
                                     </div>
@@ -771,7 +772,6 @@
                                                 <th>Customer Name</th>
                                                 <th>Customer Address</th>
                                                 <th>Customer TP.</th>
-                                                <th scope="col">Option</th>
                                             </tr>
                                             </thead>
                                             <tbody id="customerTable">
@@ -863,6 +863,7 @@
                                             </button>
                                             </button>
                                             <button class="btn btn-warning" id="btnItemUpdate">Update</button>
+                                            <button class="btn btn-danger" id="btnItemDelete">Delete</button>
                                             <button class="btn btn-primary" id="btnItemSearch">Search</button>
                                         </div>
                                     </div>
@@ -894,7 +895,7 @@
                                      id="exampleModal"
                                      tabindex="-1">
                                     <div class="modal-dialog">
-                                        <form id="itemForm">
+                                        <form id="itemTableForm">
                                             <div class="modal-content">
                                                 <div class="modal-header bg-dark">
                                                     <h5 class="modal-title" id="exampleModalLabel" style="color: white">Item
@@ -904,40 +905,42 @@
                                                             type="button"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <section class="row" style="width: 100%">
-                                                        <div class="mb-2 col-6">
-                                                            <label class="form-label" for="txtPopItemCode">Item Code</label>
-                                                            <input aria-describedby="idHelp" class="form-control"
-                                                                   id="txtPopItemCode" type="text" name="txtPopItemCode">
-                                                            <div class="form-text" id="codeHelp"></div>
-                                                            <p><small class="text-danger p-1" id="popItemError"></small></p>
-                                                        </div>
-                                                        <div class="mb-2 col-6">
-                                                            <label class="form-label" for="txtPopItemName">Name</label>
-                                                            <input aria-describedby="nameHelp2" class="form-control"
-                                                                   id="txtPopItemName" type="text" name="txtPopItemName">
-                                                            <div class="form-text" id="nameHelp2"></div>
-                                                            <p><small class="text-danger p-1" id="popItemError1"></small>
-                                                            </p>
-                                                        </div>
-                                                        <div class="mb-2 col-6">
-                                                            <label class="form-label"
-                                                                   for="txtPopItemQuntity">Quntity</label>
-                                                            <input aria-describedby="telNoHelp" class="form-control"
-                                                                   id="txtPopItemQuntity" type="text" name="txtPopItemQuntity">
-                                                            <div class="form-text" id="quntityHelp"></div>
-                                                            <p><small class="text-danger p-1" id="popItemError2"></small>
-                                                            </p>
-                                                        </div>
-                                                        <div class="mb-2 col-6">
-                                                            <label class="form-label" for="txtPopItemPrice">Price</label>
-                                                            <input aria-describedby="addressHelp" class="form-control"
-                                                                   id="txtPopItemPrice" type="text" name="txtPopItemPrice">
-                                                            <div class="form-text" id="priceHelp"></div>
-                                                            <p><small class="text-danger p-1" id="popItemError3"></small>
-                                                            </p>
-                                                        </div>
-                                                    </section>
+                                                    <form id="itemForm">
+                                                        <section class="row" style="width: 100%">
+                                                            <div class="mb-2 col-6">
+                                                                <label class="form-label" for="txtPopItemCode">Item Code</label>
+                                                                <input aria-describedby="idHelp" class="form-control"
+                                                                       id="txtPopItemCode" type="text" name="txtPopItemCode">
+                                                                <div class="form-text" id="codeHelp"></div>
+                                                                <p><small class="text-danger p-1" id="popItemError"></small></p>
+                                                            </div>
+                                                            <div class="mb-2 col-6">
+                                                                <label class="form-label" for="txtPopItemName">Name</label>
+                                                                <input aria-describedby="nameHelp2" class="form-control"
+                                                                       id="txtPopItemName" type="text" name="txtPopItemName">
+                                                                <div class="form-text" id="nameHelp2"></div>
+                                                                <p><small class="text-danger p-1" id="popItemError1"></small>
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-2 col-6">
+                                                                <label class="form-label"
+                                                                       for="txtPopItemQuntity">Quntity</label>
+                                                                <input aria-describedby="telNoHelp" class="form-control"
+                                                                       id="txtPopItemQuntity" type="text" name="txtPopItemQuntity">
+                                                                <div class="form-text" id="quntityHelp"></div>
+                                                                <p><small class="text-danger p-1" id="popItemError2"></small>
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-2 col-6">
+                                                                <label class="form-label" for="txtPopItemPrice">Price</label>
+                                                                <input aria-describedby="addressHelp" class="form-control"
+                                                                       id="txtPopItemPrice" type="text" name="txtPopItemPrice">
+                                                                <div class="form-text" id="priceHelp"></div>
+                                                                <p><small class="text-danger p-1" id="popItemError3"></small>
+                                                                </p>
+                                                            </div>
+                                                        </section>
+                                                    </form>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button class="btn btn-success  btn-sm" id="popItemBtnAdd" type="button">
@@ -959,7 +962,6 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Unit Price</th>
                                             <th scope="col">Qty On Hand</th>
-                                            <th scope="col">Option</th>
                                         </tr>
                                         </thead>
                                         <tbody id="itemTable">

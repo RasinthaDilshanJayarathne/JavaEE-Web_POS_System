@@ -3,7 +3,7 @@ $("#item").click(function (){
 })
 
 $("#popItemBtnAdd").click(function () {
-    let data = $("#itemTable").serialize();
+    let data = $("#itemTableForm").serialize();
     console.log(data)
     $.ajax({
         url: "item",
@@ -33,16 +33,27 @@ function loadAllItem() {
                 var price = resp[i].price;
                 var qtyOnHand = resp[i].qtyOnHand;
 
-                var row = `<tr>
-                                <td>${code}</td><td>${name}</td><td>${price}</td><td>${qtyOnHand}</td>
-                                <td><button id="btnItemDelete" type="button" class="btn-sm btn-danger">Delete</button></td>
-                                </tr>`;
+                var row = `<tr><td>${code}</td><td>${name}</td><td>${price}</td><td>${qtyOnHand}</td></tr>`;
                 $("#itemTable").append(row);
             }
             bindClickEvents();
         }
     });
 }
+
+$("#btnItemDelete").click(function (){
+    let itemCode = $("#txtItemCode").val();
+    $.ajax({
+        url:"item?code="+itemCode,
+        method:"DELETE",
+        //data :data,
+
+        success : function (resp){
+            console.log(resp);
+            loadAllItem();
+        }
+    })
+});
 
 function bindClickEvents(){
     $("#itemTable>tr").click(function (){

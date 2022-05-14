@@ -51,6 +51,8 @@ public class ItemServlet extends HttpServlet {
         String txtPopItemQuntity = req.getParameter("txtPopItemQuntity");
         String txtPopItemPrice = req.getParameter("txtPopItemPrice");
 
+        System.out.println(txtPopItemCode + " " + txtPopItemName + " " + txtPopItemQuntity+" "+txtPopItemPrice);
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
@@ -64,13 +66,41 @@ public class ItemServlet extends HttpServlet {
             PrintWriter writer = resp.getWriter();
 
             if (b) {
-                writer.write("Item Added");
+                writer.print("Item Added");
             }
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Request Delete");
+        String itemCode = req.getParameter("code");
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+
+            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE itemCode=?");
+            pstm.setObject(1, itemCode);
+
+            boolean b = pstm.executeUpdate() > 0;
+            PrintWriter writer = resp.getWriter();
+
+            if (b) {
+                writer.write("Item Deleted");
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            resp.sendError(500,e.getMessage());
+        }catch (SQLException throwables){
+            throwables.printStackTrace();
+            resp.sendError(500,throwables.getMessage());
         }
     }
 }
