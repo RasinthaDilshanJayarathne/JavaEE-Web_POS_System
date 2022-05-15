@@ -27,13 +27,8 @@ function loadAllItem() {
         method: "GET",
         /* dataType :"json",*/
         success: function (resp) {
-            for (var i in resp) {
-                var code = resp[i].code;
-                var name = resp[i].name;
-                var price = resp[i].price;
-                var qtyOnHand = resp[i].qtyOnHand;
-
-                var row = `<tr><td>${code}</td><td>${name}</td><td>${price}</td><td>${qtyOnHand}</td></tr>`;
+            for (const item of resp.data) {
+                var row = `<tr><td>${item.code}</td><td>${item.name}</td><td>${item.price}</td><td>${item.qtyOnHand}</td></tr>`;
                 $("#itemTable").append(row);
             }
             bindClickEvents();
