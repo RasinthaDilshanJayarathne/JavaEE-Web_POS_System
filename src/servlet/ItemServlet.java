@@ -112,6 +112,9 @@ public class ItemServlet extends HttpServlet {
         System.out.println("Request Delete");
         String itemCode = req.getParameter("code");
 
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
@@ -119,19 +122,33 @@ public class ItemServlet extends HttpServlet {
             PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE itemCode=?");
             pstm.setObject(1, itemCode);
 
-            boolean b = pstm.executeUpdate() > 0;
-            PrintWriter writer = resp.getWriter();
-
-            if (b) {
-                writer.write("Item Deleted");
-            }
+            if (pstm.executeUpdate() > 0) {
+                JsonObjectBuilder response = Json.createObjectBuilder();
+                resp.setStatus(HttpServletResponse.SC_CREATED);//201
+                response.add("status", 200);
+                response.add("message", "Successfully Deleted");
+                response.add("data", "");
+                writer.print(response.build());            }
 
         } catch (ClassNotFoundException e) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", e.getLocalizedMessage());
+            writer.print(response.build());
+
+            resp.setStatus(HttpServletResponse.SC_OK); //200
             e.printStackTrace();
-            resp.sendError(500,e.getMessage());
-        }catch (SQLException throwables){
+
+        } catch (SQLException throwables) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", throwables.getLocalizedMessage());
+            writer.print(response.build());
+
+            resp.setStatus(HttpServletResponse.SC_OK); //200
             throwables.printStackTrace();
-            resp.sendError(500,throwables.getMessage());
         }
     }
 

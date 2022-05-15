@@ -114,6 +114,9 @@ public class CustomerServlet extends HttpServlet {
         System.out.println("Request Delete");
         String customerId = req.getParameter("CustId");
 
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
@@ -121,19 +124,34 @@ public class CustomerServlet extends HttpServlet {
             PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE cusId=?");
             pstm.setObject(1, customerId);
 
-            boolean b = pstm.executeUpdate() > 0;
-            PrintWriter writer = resp.getWriter();
-
-            if (b) {
-                writer.write("Customer Deleted");
+            if (pstm.executeUpdate() > 0) {
+                JsonObjectBuilder response = Json.createObjectBuilder();
+                resp.setStatus(HttpServletResponse.SC_CREATED);//201
+                response.add("status", 200);
+                response.add("message", "Successfully Deleted");
+                response.add("data", "");
+                writer.print(response.build());
             }
 
         } catch (ClassNotFoundException e) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", e.getLocalizedMessage());
+            writer.print(response.build());
+
+            resp.setStatus(HttpServletResponse.SC_OK); //200
             e.printStackTrace();
-            resp.sendError(500,e.getMessage());
-        }catch (SQLException throwables){
+
+        } catch (SQLException throwables) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", throwables.getLocalizedMessage());
+            writer.print(response.build());
+
+            resp.setStatus(HttpServletResponse.SC_OK); //200
             throwables.printStackTrace();
-            resp.sendError(500,throwables.getMessage());
         }
     }
 
