@@ -66,6 +66,9 @@ public class CustomerServlet extends HttpServlet {
         String customerAddress = req.getParameter("txtPopCustAddress");
         String customerContact = req.getParameter("txtPopCustPhone");
 
+        PrintWriter writer = resp.getWriter();
+        resp.setContentType("application/json");
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
@@ -75,19 +78,34 @@ public class CustomerServlet extends HttpServlet {
             pstm.setObject(2, customerName);
             pstm.setObject(3, customerAddress);
             pstm.setObject(4, customerContact);
-            boolean b = pstm.executeUpdate() > 0;
-            PrintWriter writer = resp.getWriter();
 
-            if (b) {
-                writer.write("Customer Added");
+            if (pstm.executeUpdate() > 0) {
+                JsonObjectBuilder response = Json.createObjectBuilder();
+                resp.setStatus(HttpServletResponse.SC_CREATED);
+                response.add("status", 200);
+                response.add("message", "Successfully Added");
+                response.add("data", "");
+                writer.print(response.build());
             }
 
         } catch (ClassNotFoundException e) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", e.getLocalizedMessage());
+            writer.print(response.build());
+
+            resp.setStatus(HttpServletResponse.SC_OK);
             e.printStackTrace();
-            resp.sendError(500,e.getMessage());
-        }catch (SQLException throwables){
+        } catch (SQLException throwables) {
+            JsonObjectBuilder response = Json.createObjectBuilder();
+            response.add("status", 400);
+            response.add("message", "Error");
+            response.add("data", throwables.getLocalizedMessage());
+            writer.print(response.build());
+
+            resp.setStatus(HttpServletResponse.SC_OK);
             throwables.printStackTrace();
-            resp.sendError(500,throwables.getMessage());
         }
     }
 

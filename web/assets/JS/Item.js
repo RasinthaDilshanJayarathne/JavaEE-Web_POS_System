@@ -9,13 +9,16 @@ $("#popItemBtnAdd").click(function () {
         url: "item",
         method: "POST",
         data: data,
-        success: function (resp) {
-            alert(resp)
-            loadAllItem();
+        success:function (res){
+            if (res.status==200){
+                alert(res.message);
+                loadAllItem();
+            }else {
+                alert(res.data);
+            }
         },
         error: function (ob, textStatus, error) {
             alert(textStatus);
-            console.log(ob.responseText);
         }
     });
 });
@@ -42,9 +45,21 @@ $("#btnItemDelete").click(function (){
         url:"item?code="+itemCode,
         method:"DELETE",
         //data :data,
-        success : function (resp){
-            console.log(resp);
-            loadAllItem();
+        success: function (res) {
+            console.log(res);
+            if (res.status == 200) {
+                alert(res.message);
+                loadAllCustomers();
+            } else if (res.status == 400) {
+                alert(res.data);
+            } else {
+                alert(res.data);
+            }
+        },
+        error: function (ob, status, t) {
+            console.log(ob);
+            console.log(status);
+            console.log(t);
         }
     })
 });

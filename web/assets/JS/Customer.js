@@ -9,13 +9,16 @@ $("#popCustBtnAdd").click(function () {
         url: "customer",
         method: "POST",
         data: data,
-        success: function (resp) {
-            alert(resp)
-            loadAllCustomer();
+        success:function (res){
+            if (res.status==200){
+                alert(res.message);
+                loadAllCustomer();
+            }else {
+                alert(res.data);
+            }
         },
         error: function (ob, textStatus, error) {
             alert(textStatus);
-            console.log(ob.responseText);
         }
     });
 });
@@ -26,10 +29,21 @@ $("#btnCustomerDelete").click(function (){
         url:"customer?CustId="+custId,
         method:"DELETE",
         //data :data,
-
-        success : function (resp){
-            console.log(resp);
-            loadAllCustomer();
+        success: function (res) {
+            console.log(res);
+            if (res.status == 200) {
+                alert(res.message);
+                loadAllCustomers();
+            } else if (res.status == 400) {
+                alert(res.data);
+            } else {
+                alert(res.data);
+            }
+        },
+        error: function (ob, status, t) {
+            console.log(ob);
+            console.log(status);
+            console.log(t);
         }
     })
 
@@ -43,7 +57,6 @@ function loadAllCustomer() {
         /* dataType :"json",*/
         success: function (resp) {
             for (const customer of resp.data) {
-
                 var row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contact}</td></tr>`;
                 $("#customerTable").append(row);
             }
