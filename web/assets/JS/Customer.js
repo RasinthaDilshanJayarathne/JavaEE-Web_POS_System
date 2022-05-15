@@ -42,13 +42,9 @@ function loadAllCustomer() {
         method: "GET",
         /* dataType :"json",*/
         success: function (resp) {
-            for (var i in resp) {
-                var id = resp[i].id;
-                var name = resp[i].name;
-                var address = resp[i].address;
-                var contact = resp[i].contact;
+            for (const customer of resp.data) {
 
-                var row = `<tr><td>${id}</td><td>${name}</td><td>${address}</td><td>${contact}</td></tr>`;
+                var row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contact}</td></tr>`;
                 $("#customerTable").append(row);
             }
             bindClickEvent();
