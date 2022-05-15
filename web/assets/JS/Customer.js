@@ -84,3 +84,20 @@ $("#btnCustUpdate").click(function (){
         }
     })
 });
+
+$("#btnCustSearch").keyup(function (event) {
+    let input = $("#searchBar3").val();
+    console.log(input);
+
+    $.ajax({
+        url:"customer?SearchId="+input,
+        method:"GET",
+        //data :data,
+
+        success : function (resp){
+            console.log(resp);
+            loadAllCustomer();
+        }
+    })
+
+});

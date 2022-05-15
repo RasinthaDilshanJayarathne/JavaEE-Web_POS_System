@@ -51,6 +51,8 @@ public class ItemServlet extends HttpServlet {
         String txtPopItemQuntity = req.getParameter("txtPopItemQuntity");
         String txtPopItemPrice = req.getParameter("txtPopItemPrice");
 
+        System.out.println(txtPopItemCode+""+txtPopItemName+" "+txtPopItemQuntity+" "+txtPopItemPrice);
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");

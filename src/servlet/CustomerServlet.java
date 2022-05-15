@@ -24,22 +24,27 @@ public class CustomerServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
             ResultSet rst = connection.prepareStatement("SELECT * FROM Customer").executeQuery();
-            String allRecodes="";
+
+            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
             while (rst.next()){
                 String id = rst.getString(1);
                 String name = rst.getString(2);
                 String address = rst.getString(3);
                 String contact = rst.getString(4);
-                System.out.println(id+" "+name+" "+address);
 
-                String customer = "{\"id\":\"" + id + "\",\"name\":\"" + name + "\",\"address\":\"" + address + "\",\"contact\":\"" + contact + "\"},";
-                allRecodes = allRecodes + customer;
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("id",id);
+                objectBuilder.add("name",name);
+                objectBuilder.add("address",address);
+                objectBuilder.add("contact",contact);
+
+                arrayBuilder.add(objectBuilder.build());
+
             }
 
-            String finalJson = "[" + allRecodes.substring(0, allRecodes.length() - 1) + "]";
             PrintWriter writer = resp.getWriter();
-            writer.write(finalJson);
+            writer.print(arrayBuilder.build());
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
