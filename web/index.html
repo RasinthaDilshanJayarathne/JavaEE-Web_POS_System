@@ -1019,7 +1019,6 @@
                                                                style="font-weight: bold; font-size: 12px">Customer
                                                             ID</label>
                                                         <select class="form-select" id="custChombo">
-                                                            <option selected>None</option>
                                                         </select>
                                                     </div>
 
@@ -1028,7 +1027,7 @@
                                                                style="font-weight: bold; font-size: 12px">Name</label>
                                                         <input aria-describedby="itemNameHelp" class="form-control"
                                                                disabled
-                                                               id="orderCustName" type="text">
+                                                               id="orderCustName" type="text" name="orderCustName">
                                                         <div class="form-text" id="itemNameHelp"></div>
                                                     </div>
                                                     <div class="mb-2 col-6">
@@ -1037,7 +1036,7 @@
                                                             No</label>
                                                         <input aria-describedby="telNoHelp" class="form-control"
                                                                disabled
-                                                               id="orderTelephoneNo" type="text">
+                                                               id="orderTelephoneNo" type="text" name="orderTelephoneNo">
                                                         <div class="form-text" id="telNoHelp"></div>
                                                     </div>
                                                     <div class="mb-2 col-6">
@@ -1045,7 +1044,7 @@
                                                                style="font-weight: bold; font-size: 12px">Address</label>
                                                         <input aria-describedby="addressHelp" class="form-control"
                                                                disabled
-                                                               id="orderAddress" type="text">
+                                                               id="orderAddress" type="text" name="orderAddress">
                                                         <div class="form-text" id="addressHelp"></div>
                                                     </div>
                                                 </section>
@@ -1126,7 +1125,6 @@
                                         <div class="card-body">
                                             <form>
                                                 <section class="row" style="width: 100%">
-
                                                     <div class="mb-2 col-6 mt-0">
                                                         <label class="form-label" for="total"
                                                                style="font-weight: bold; font-size: 12px">Total </label>
@@ -1147,9 +1145,7 @@
                                                         <label class="form-label" for="orderOrderQty"
                                                                style="font-weight: bold; font-size: 12px">Sub
                                                             Total </label>
-                                                        <input aria-describedby="orderQtyHelp" class="form-control"
-                                                               id="subToal"
-                                                               style="color: #0a58ca;font-weight: bold;"
+                                                        <input aria-describedby="orderQtyHelp" class="form-control" id="subToal" style="color: #0a58ca;font-weight: bold;"
                                                                type="text">
                                                     </div>
 

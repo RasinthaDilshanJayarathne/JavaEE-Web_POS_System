@@ -89,7 +89,7 @@ $("#btnCustSearch").click(function (){
 function loadAllCustomer() {
     $("#customerTable").empty();
     $.ajax({
-        url: "customer?option=GATAll",
+        url: "customer?option=GETAll",
         method: "GET",
         /* dataType :"json",*/
         success: function (resp) {

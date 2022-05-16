@@ -59,7 +59,7 @@ public class CustomerServlet extends HttpServlet {
 
                     break;
 
-                case "GATAll":
+                case "GETAll":
                     ResultSet rst = connection.prepareStatement("SELECT * FROM Customer").executeQuery();
 
                     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
