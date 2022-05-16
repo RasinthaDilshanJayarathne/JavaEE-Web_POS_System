@@ -70,6 +70,8 @@ public class ItemServlet extends HttpServlet {
         String txtPopItemQuntity = req.getParameter("txtPopItemQuntity");
         String txtPopItemPrice = req.getParameter("txtPopItemPrice");
 
+        System.out.println(txtPopItemCode+""+txtPopItemName+" "+txtPopItemQuntity+" "+txtPopItemPrice );
+
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
@@ -183,7 +185,6 @@ public class ItemServlet extends HttpServlet {
             pstm.setObject(2, txtItemName);
             pstm.setObject(3, txtItemQuntity);
             pstm.setObject(4, txtItemPrice);
-
 
             if (pstm.executeUpdate() > 0) {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();

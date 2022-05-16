@@ -1,4 +1,5 @@
 $("#item").click(function (){
+    console.log("Item")
     loadAllItem();
 })
 
@@ -17,7 +18,7 @@ function genarateItemCode(){
 }
 
 $("#popItemBtnAdd").click(function () {
-    let data = $("#itemTableForm").serialize();
+    let data = $("#itemForm").serialize();
     console.log(data)
     $.ajax({
         url: "item",
@@ -96,7 +97,7 @@ function bindClickEvents(){
 }
 
 $("#btnItemUpdate").click(function (){
-    var cusOb = {
+    var itmOb = {
         code: $("#txtItemCode").val(),
         name: $("#txtItemName").val(),
         price: $("#txtItemPrice").val(),
@@ -106,20 +107,20 @@ $("#btnItemUpdate").click(function (){
     $.ajax({
         url: "item",
         method: "PUT",
-        contentType: "application/json", //You should state request's content type using MIME types
-        data: JSON.stringify(cusOb), // format js object to valid json string
+        contentType: "application/json",
+        data: JSON.stringify(itmOb),
         success: function (res) {
-            if (res.status == 200) { // process is  ok
+            if (res.status == 200) {
                 alert(res.message);
-                loadAllCustomer();
-            } else if (res.status == 400) { // there is a problem with the client side
+                loadAllItem();
+            } else if (res.status == 400) {
                 alert(res.message);
             } else {
-                alert(res.data); // else maybe there is an exception
+                alert(res.data);
             }
         },
         error: function (ob, errorStus) {
-            console.log(ob); // other errors
+            console.log(ob);
         }
     });
 });

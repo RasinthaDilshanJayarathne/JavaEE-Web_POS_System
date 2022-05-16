@@ -1,6 +1,8 @@
 $("#customer").click(function (){
+    console.log("Customer")
     loadAllCustomer();
 });
+
 
 function genarateCustomerId(){
     $("#txtPopCustId").val("C00-001");
@@ -29,7 +31,7 @@ $("#popCustBtnAdd").click(function () {
                 alert(res.message);
                 clearPopData();
                 loadAllCustomer();
-                genarateCustomerId();
+                //genarateCustomerId();
             }else {
                 alert(res.data);
             }
@@ -62,6 +64,23 @@ $("#btnCustomerDelete").click(function (){
             console.log(ob);
             console.log(status);
             console.log(t);
+        }
+    })
+});
+
+$("#btnCustSearch").click(function (){
+    var search = $("#searchBar3").val();
+    $("#customerTable").empty();
+
+    $.ajax({
+        url:"customer?option=SEARCH&cusId=" + search,
+        method:"GET",
+        success: function (resp) {
+            for (const customer of resp.data) {
+                var row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contact}</td></tr>`;
+                $("#customerTable").append(row);
+            }
+            bindClickEvent();
         }
     })
 
@@ -109,20 +128,20 @@ $("#btnCustUpdate").click(function (){
     $.ajax({
         url: "customer",
         method: "PUT",
-        contentType: "application/json", //You should state request's content type using MIME types
-        data: JSON.stringify(cusOb), // format js object to valid json string
+        contentType: "application/json",
+        data: JSON.stringify(cusOb),
         success: function (res) {
-            if (res.status == 200) { // process is  ok
+            if (res.status == 200) {
                 alert(res.message);
                 loadAllCustomer();
-            } else if (res.status == 400) { // there is a problem with the client side
+            } else if (res.status == 400) {
                 alert(res.message);
             } else {
-                alert(res.data); // else maybe there is an exception
+                alert(res.data);
             }
         },
         error: function (ob, errorStus) {
-            console.log(ob); // other errors
+            console.log(ob);
         }
     });
 });

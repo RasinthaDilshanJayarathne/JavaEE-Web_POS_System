@@ -22,12 +22,43 @@ public class CustomerServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
 
+            String cusId = req.getParameter("cusId");
+
             PrintWriter writer = resp.getWriter();
 
             switch (option) {
                 case "SEARCH":
 
+                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Customer where cusId=?");
+                    preparedStatement.setObject(1,cusId);
+
+                    System.out.println(cusId);
+
+                    ResultSet resultSet1 = preparedStatement.executeQuery();
+                    JsonArrayBuilder arrayBuilder1 = Json.createArrayBuilder();
+
+                    while (resultSet1.next()){
+                        String id = resultSet1.getString(1);
+                        String name = resultSet1.getString(2);
+                        String address = resultSet1.getString(3);
+                        String contact = resultSet1.getString(4);
+
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                        objectBuilder.add("id", id);
+                        objectBuilder.add("name", name);
+                        objectBuilder.add("address", address);
+                        objectBuilder.add("contact", contact);
+                        arrayBuilder1.add(objectBuilder.build());
+                    }
+
+                    JsonObjectBuilder response1 = Json.createObjectBuilder();
+                    response1.add("status", 200);
+                    response1.add("message", "Done");
+                    response1.add("data", arrayBuilder1.build());
+                    writer.print(response1.build());
+
                     break;
+
                 case "GATAll":
                     ResultSet rst = connection.prepareStatement("SELECT * FROM Customer").executeQuery();
 
@@ -116,7 +147,6 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Request Delete");
         String customerId = req.getParameter("CustId");
 
         PrintWriter writer = resp.getWriter();
