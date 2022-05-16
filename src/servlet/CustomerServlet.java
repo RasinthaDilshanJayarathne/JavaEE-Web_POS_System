@@ -32,7 +32,6 @@ public class CustomerServlet extends HttpServlet {
                     PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Customer where cusId=?");
                     preparedStatement.setObject(1,cusId);
 
-                    System.out.println(cusId);
 
                     ResultSet resultSet1 = preparedStatement.executeQuery();
                     JsonArrayBuilder arrayBuilder1 = Json.createArrayBuilder();

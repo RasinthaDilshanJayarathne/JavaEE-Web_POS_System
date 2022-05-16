@@ -104,7 +104,7 @@ $("#orderTable").empty();
 
 function loadItemData() {
 
-    let itemCode = $("#itemChombo").val();
+    let itemCode = $("#itemChombo option:selected").text();
     let itemName = $("#orderItemName").val();
     let itemPrice = $("#orderUnitPrice").val();
     let itemQty = $("#orderQtyOnHand").val();
@@ -181,7 +181,7 @@ $("#addToCart").click(function () {
         let qty = $(this).children(":eq(4)").text();
         let total = $(this).children(":eq(5)").text();
 
-        $("#itemChombo").val(itemCode);
+        $("#itemChombo option:selected").text(itemCode);
         $("#orderItemName").val(itemName);
         $("#orderUnitPrice").val(unitPrice);
         $("#orderOrderQty").val(qty);
@@ -214,6 +214,13 @@ function updateManageTotal(prvTotal, nowTotal) {
     let B = $("#discountCmb").val();
 
     $("#subToal").val(A - B);
+}
+
+function manageBalence() {
+    let A = $("#subToal").val();
+    let B = $("#cash").val();
+
+    $("#balance").val(B - A);
 }
 
 function manageQuantity(prevQty, nowQty) {
