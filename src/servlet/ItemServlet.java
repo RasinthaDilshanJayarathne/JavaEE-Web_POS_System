@@ -21,13 +21,40 @@ public class ItemServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
 
+            String ItemcCode = req.getParameter("code");
+
             PrintWriter writer = resp.getWriter();
 
             switch (option) {
                 case "SEARCH":
+                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Item where code=?");
+                    preparedStatement.setObject(1,ItemcCode);
+
+                    ResultSet resultSet1 = preparedStatement.executeQuery();
+                    JsonArrayBuilder arrayBuilder1 = Json.createArrayBuilder();
+
+                    while (resultSet1.next()){
+                        String itemCode = resultSet1.getString(1);
+                        String itemName = resultSet1.getString(2);
+                        String itemPrice = resultSet1.getString(3);
+                        String itemQty = resultSet1.getString(4);
+
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                        objectBuilder.add("code", itemCode);
+                        objectBuilder.add("name", itemName);
+                        objectBuilder.add("price", itemPrice);
+                        objectBuilder.add("qtyOnHand", itemQty);
+                        arrayBuilder1.add(objectBuilder.build());
+                    }
+
+                    JsonObjectBuilder response1 = Json.createObjectBuilder();
+                    response1.add("status", 200);
+                    response1.add("message", "Done");
+                    response1.add("data", arrayBuilder1.build());
+                    writer.print(response1.build());
 
                     break;
-                case "GATAll":
+                case "GETAll":
                     ResultSet rst = connection.prepareStatement("SELECT * FROM Item").executeQuery();
 
                     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();

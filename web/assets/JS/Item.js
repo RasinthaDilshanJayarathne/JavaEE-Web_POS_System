@@ -1,5 +1,4 @@
 $("#item").click(function (){
-    console.log("Item")
     loadAllItem();
 })
 
@@ -43,7 +42,7 @@ $("#popItemBtnAdd").click(function () {
 function loadAllItem() {
     $("#itemTable").empty();
     $.ajax({
-        url: "item?option=GATAll",
+        url: "item?option=GETAll",
         method: "GET",
         /* dataType :"json",*/
         success: function (resp) {
@@ -78,6 +77,23 @@ $("#btnItemDelete").click(function (){
             console.log(ob);
             console.log(status);
             console.log(t);
+        }
+    })
+});
+
+$("#btnItemSearch").click(function (){
+    var search = $("#ItemPpoSearchBar").val();
+    $("#itemTable").empty();
+
+    $.ajax({
+        url:"item?option=SEARCH&code=" + search,
+        method:"GET",
+        success: function (resp) {
+            for (const item of resp.data) {
+                var row = `<tr><td>${item.code}</td><td>${item.name}</td><td>${item.price}</td><td>${item.qtyOnHand}</td></tr>`;
+                $("#itemTable").append(row);
+            }
+            bindClickEvents();
         }
     })
 });
