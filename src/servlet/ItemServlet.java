@@ -1,8 +1,6 @@
 package servlet;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,43 +14,51 @@ import java.sql.*;
 public class ItemServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         try {
-
+            String option = req.getParameter("option");
             resp.setContentType("application/json");
-
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
-            ResultSet rst = connection.prepareStatement("SELECT * FROM Item").executeQuery();
 
-            JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-
-            while (rst.next()){
-                String code = rst.getString(1);
-                String name = rst.getString(2);
-                String price = rst.getString(3);
-                String qtyOnHand = rst.getString(4);
-
-                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                objectBuilder.add("code",code);
-                objectBuilder.add("name",name);
-                objectBuilder.add("price",price);
-                objectBuilder.add("qtyOnHand",qtyOnHand);
-
-                arrayBuilder.add(objectBuilder.build());
-
-            }
             PrintWriter writer = resp.getWriter();
 
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status",200);
-            response.add("message","Done");
-            response.add("data",arrayBuilder.build());
+            switch (option) {
+                case "SEARCH":
 
-            writer.print(response.build());
+                    break;
+                case "GATAll":
+                    ResultSet rst = connection.prepareStatement("SELECT * FROM Item").executeQuery();
+
+                    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+                    while (rst.next()) {
+                        String code = rst.getString(1);
+                        String name = rst.getString(2);
+                        String price = rst.getString(3);
+                        String qtyOnHand = rst.getString(4);
+
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                        objectBuilder.add("code", code);
+                        objectBuilder.add("name", name);
+                        objectBuilder.add("price", price);
+                        objectBuilder.add("qtyOnHand", qtyOnHand);
+
+                        arrayBuilder.add(objectBuilder.build());
+
+                    }
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 200);
+                    response.add("message", "Done");
+                    response.add("data", arrayBuilder.build());
+
+                    writer.print(response.build());
+                    break;
+            }
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }catch (SQLException throwables){
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
@@ -72,10 +78,10 @@ public class ItemServlet extends HttpServlet {
             Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
 
             PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
-            pstm.setObject(1,txtPopItemCode);
-            pstm.setObject(2,txtPopItemName);
-            pstm.setObject(3,txtPopItemPrice);
-            pstm.setObject(4,txtPopItemQuntity);
+            pstm.setObject(1, txtPopItemCode);
+            pstm.setObject(2, txtPopItemName);
+            pstm.setObject(3, txtPopItemPrice);
+            pstm.setObject(4, txtPopItemQuntity);
 
             if (pstm.executeUpdate() > 0) {
                 JsonObjectBuilder response = Json.createObjectBuilder();
@@ -128,7 +134,8 @@ public class ItemServlet extends HttpServlet {
                 response.add("status", 200);
                 response.add("message", "Successfully Deleted");
                 response.add("data", "");
-                writer.print(response.build());            }
+                writer.print(response.build());
+            }
 
         } catch (ClassNotFoundException e) {
             JsonObjectBuilder response = Json.createObjectBuilder();
@@ -154,33 +161,58 @@ public class ItemServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String txtItemCode = req.getParameter("txtItemCode");
-        String txtItemName = req.getParameter("txtItemName");
-        String txtItemQuntity = req.getParameter("txtItemQTYOnHand");
-        String txtItemPrice = req.getParameter("txtItemPrice");
 
-        System.out.println(txtItemCode + " " + txtItemName + " " + txtItemQuntity+" "+txtItemPrice);
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject jsonObject = reader.readObject();
+
+        String txtItemCode = jsonObject.getString("code");
+        String txtItemName = jsonObject.getString("name");
+        String txtItemQuntity = jsonObject.getString("price");
+        String txtItemPrice = jsonObject.getString("qtyOnHand");
+
+        PrintWriter writer = resp.getWriter();
+
+        resp.setContentType("application/json");
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/WebSuperMarket", "root", "1234");
 
             PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET itemName=?,unitPrice=?,qtyOnHand=? WHERE itemCode=?");
-            pstm.setObject(1,txtItemCode);
-            pstm.setObject(2,txtItemName);
-            pstm.setObject(3,txtItemQuntity);
-            pstm.setObject(4,txtItemPrice);
-            boolean b = pstm.executeUpdate() > 0;
-            PrintWriter writer = resp.getWriter();
+            pstm.setObject(1, txtItemCode);
+            pstm.setObject(2, txtItemName);
+            pstm.setObject(3, txtItemQuntity);
+            pstm.setObject(4, txtItemPrice);
 
-            if (b) {
-                writer.print("Item Added");
+
+            if (pstm.executeUpdate() > 0) {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status", 200);
+                objectBuilder.add("message", "Successfully Updated");
+                objectBuilder.add("data", "");
+                writer.print(objectBuilder.build());
+            } else {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status", 400);
+                objectBuilder.add("message", "Update Failed");
+                objectBuilder.add("data", "");
+                writer.print(objectBuilder.build());
             }
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 500);
+            objectBuilder.add("message", "Update Failed");
+            objectBuilder.add("data", e.getLocalizedMessage());
+            writer.print(objectBuilder.build());
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 500);
+            objectBuilder.add("message", "Update Failed");
+            objectBuilder.add("data", throwables.getLocalizedMessage());
+            writer.print(objectBuilder.build());
         }
     }
 }

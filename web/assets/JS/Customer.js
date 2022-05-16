@@ -70,7 +70,7 @@ $("#btnCustomerDelete").click(function (){
 function loadAllCustomer() {
     $("#customerTable").empty();
     $.ajax({
-        url: "customer",
+        url: "customer?option=GATAll",
         method: "GET",
         /* dataType :"json",*/
         success: function (resp) {
@@ -99,18 +99,32 @@ function bindClickEvent(){
 }
 
 $("#btnCustUpdate").click(function (){
-    let fromData = $("#viewCustomerForm").serialize();
-    console.log(fromData);
+    var cusOb = {
+        id: $("#txtCustId").val(),
+        name: $("#txtCustName").val(),
+        address: $("#txtCustAddress").val(),
+        contact: $("#txtCustPhoneNo").val(),
+    }
+
     $.ajax({
-        url:"customer?"+fromData,
-        method:"PUT",
-        //data: fromData,
-        success:function (res){
-            console.log(res)
-            clearAll();
-            loadAllCustomer();
+        url: "customer",
+        method: "PUT",
+        contentType: "application/json", //You should state request's content type using MIME types
+        data: JSON.stringify(cusOb), // format js object to valid json string
+        success: function (res) {
+            if (res.status == 200) { // process is  ok
+                alert(res.message);
+                loadAllCustomer();
+            } else if (res.status == 400) { // there is a problem with the client side
+                alert(res.message);
+            } else {
+                alert(res.data); // else maybe there is an exception
+            }
+        },
+        error: function (ob, errorStus) {
+            console.log(ob); // other errors
         }
-    })
+    });
 });
 
 var regExCusID = /^(C00-)[0-9]{3,4}$/;
