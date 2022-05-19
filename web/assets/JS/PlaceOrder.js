@@ -49,7 +49,6 @@ $("#custChombo").click(function () {
 });
 
 function loadItemComboData(){
-    console.log("Enter")
     $("#itemChombo").empty();
     $("#itemChombo").append($("<option></option>").attr("value", 0).text("Select Code"));
     var count=1;
@@ -57,7 +56,6 @@ function loadItemComboData(){
         url:"item?option=GETAll",
         method:"GET",
         success:function (res){
-            console.log("AAAAAAAA")
             for (let item of res.data){
                 $("#itemChombo").append($("<option></option>").attr("value", count).text(item.code));
                 count++;
