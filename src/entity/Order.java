@@ -1,19 +1,19 @@
-package dto;
+package entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class OrderDTO {
+public class Order {
     private String orderId;
     private String customerId;
     private LocalDate orderDate;
     private LocalTime orderTime;
     private double coust;
 
-    public OrderDTO() {
+    public Order() {
     }
 
-    public OrderDTO(String orderId, String customerId, LocalDate orderDate, LocalTime orderTime, double coust) {
+    public Order(String orderId, String customerId, LocalDate orderDate, LocalTime orderTime, double coust) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -63,7 +63,7 @@ public class OrderDTO {
 
     @Override
     public String toString() {
-        return "OrderDTO{" +
+        return "Order{" +
                 "orderId='" + orderId + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", orderDate=" + orderDate +

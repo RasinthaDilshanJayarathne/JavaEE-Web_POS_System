@@ -1,4 +1,6 @@
 package dao.customer;
 
-public interface OrderDAO {
+import entity.Order;
+
+public interface OrderDAO extends CrudDAO<Order,String>{
 }

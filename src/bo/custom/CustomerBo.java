@@ -1,4 +1,4 @@
 package bo.custom;
 
-public interface CustomerBo {
+public interface CustomerBo extends SuperBO{
 }

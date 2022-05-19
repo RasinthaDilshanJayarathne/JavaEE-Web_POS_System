@@ -1,4 +1,4 @@
 package bo.custom;
 
-public interface PurchaseOrderBO {
+public interface PurchaseOrderBO extends SuperBO{
 }

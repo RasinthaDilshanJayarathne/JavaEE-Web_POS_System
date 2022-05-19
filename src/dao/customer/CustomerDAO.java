@@ -1,4 +1,6 @@
 package dao.customer;
 
-public interface CustomerDAO {
+import entity.Customer;
+
+public interface CustomerDAO extends CrudDAO<Customer,String>{
 }

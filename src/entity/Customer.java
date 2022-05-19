@@ -1,15 +1,15 @@
-package dto;
+package entity;
 
-public class CustomerDTO {
+public class Customer {
     private String id;
     private String name;
     private String address;
     private String contact;
 
-    public CustomerDTO() {
+    public Customer() {
     }
 
-    public CustomerDTO(String id, String name, String address, String contact) {
+    public Customer(String id, String name, String address, String contact) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -50,7 +50,7 @@ public class CustomerDTO {
 
     @Override
     public String toString() {
-        return "CustomerDTO{" +
+        return "Customer{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +

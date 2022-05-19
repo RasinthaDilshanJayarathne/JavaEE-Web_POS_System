@@ -1,4 +1,6 @@
 package bo.impl;
 
-public class CustomerBOImpl {
+import bo.custom.CustomerBo;
+
+public class CustomerBOImpl implements CustomerBo {
 }

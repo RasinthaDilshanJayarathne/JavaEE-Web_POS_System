@@ -1,4 +1,6 @@
 package bo.impl;
 
-public interface PurchaseOrderBOImpl {
+import bo.custom.PurchaseOrderBO;
+
+public class PurchaseOrderBOImpl implements PurchaseOrderBO {
 }

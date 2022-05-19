@@ -1,15 +1,15 @@
-package dto;
+package entity;
 
-public class OrderDetailDTO {
+public class OrderDetail {
     private String code;
     private String orderId;
     private int orderQty;
     private double price;
 
-    public OrderDetailDTO() {
+    public OrderDetail() {
     }
 
-    public OrderDetailDTO(String code, String orderId, int orderQty, double price) {
+    public OrderDetail(String code, String orderId, int orderQty, double price) {
         this.code = code;
         this.orderId = orderId;
         this.orderQty = orderQty;
@@ -50,7 +50,7 @@ public class OrderDetailDTO {
 
     @Override
     public String toString() {
-        return "OrderDetailDTO{" +
+        return "OrderDetail{" +
                 "code='" + code + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", orderQty=" + orderQty +

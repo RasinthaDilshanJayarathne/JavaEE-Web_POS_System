@@ -1,4 +1,6 @@
 package bo.impl;
 
-public class ItemBOImpl {
+import bo.custom.ItemBO;
+
+public class ItemBOImpl implements ItemBO {
 }
