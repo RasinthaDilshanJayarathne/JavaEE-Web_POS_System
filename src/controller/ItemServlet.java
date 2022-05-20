@@ -207,30 +207,25 @@ public class ItemServlet extends HttpServlet {
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
 
-        String txtItemCode = jsonObject.getString("code");
-        String txtItemName = jsonObject.getString("name");
-        String txtItemQuntity = jsonObject.getString("price");
-        String txtItemPrice = jsonObject.getString("qtyOnHand");
-
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/WebSuperMarket", "root", "1234");
+            Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement("UPDATE Item SET itemName=?,unitPrice=?,qtyOnHand=? WHERE itemCode=?");
-            pstm.setObject(1, txtItemCode);
-            pstm.setObject(2, txtItemName);
-            pstm.setObject(3, txtItemQuntity);
-            pstm.setObject(4, txtItemPrice);
+            ItemDTO itemDTO = new ItemDTO(
+                    jsonObject.getString("code"),
+                    jsonObject.getString("name"),
+                    Integer.parseInt(jsonObject.getString("price")),
+                    Integer.parseInt(jsonObject.getString("qtyOnHand"))
+            );
 
-            if (pstm.executeUpdate() > 0) {
+            if (itemBO.updateItem(connection,itemDTO)) {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                objectBuilder.add("status", 200);
-                objectBuilder.add("message", "Successfully Updated");
-                objectBuilder.add("data", "");
+                objectBuilder.add("message","Customer Successfully Updated.");
+                objectBuilder.add("status",resp.getStatus());
                 writer.print(objectBuilder.build());
             } else {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
