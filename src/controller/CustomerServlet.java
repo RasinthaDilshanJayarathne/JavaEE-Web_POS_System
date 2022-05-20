@@ -3,6 +3,7 @@ package controller;
 import bo.custom.CustomerBO;
 import bo.impl.BOFactory;
 import dto.CustomerDTO;
+import javafx.collections.ObservableList;
 
 import javax.annotation.Resource;
 import javax.json.*;
@@ -70,31 +71,26 @@ public class CustomerServlet extends HttpServlet {
                     break;
 
                 case "GETAll":
-                    ResultSet rst = connection.prepareStatement("SELECT * FROM Customer").executeQuery();
-
+                    ObservableList<CustomerDTO> allCustomers = customerBO.getAllCustomers(connection);
                     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-                    while (rst.next()) {
-                        String id = rst.getString(1);
-                        String name = rst.getString(2);
-                        String address = rst.getString(3);
-                        String contact = rst.getString(4);
+                    for (CustomerDTO c : allCustomers) {
+                        JsonObjectBuilder ob = Json.createObjectBuilder();
 
-                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                        objectBuilder.add("id", id);
-                        objectBuilder.add("name", name);
-                        objectBuilder.add("address", address);
-                        objectBuilder.add("contact", contact);
+                        ob.add("id", c.getId());
+                        ob.add("name", c.getName());
+                        ob.add("address", c.getAddress());
+                        ob.add("contact", c.getContact());
 
-                        arrayBuilder.add(objectBuilder.build());
-
+                        arrayBuilder.add(ob.build());
                     }
+
                     JsonObjectBuilder response = Json.createObjectBuilder();
                     response.add("status", 200);
                     response.add("message", "Done");
                     response.add("data", arrayBuilder.build());
-
                     writer.print(response.build());
+
                     break;
             }
 
