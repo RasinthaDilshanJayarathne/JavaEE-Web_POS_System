@@ -24,7 +24,7 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean delete(String code, Connection conection) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(conection,"Delete from Item WHERE code=?",code);
+        return CrudUtil.executeUpdate(conection,"Delete from Item WHERE itemCode=?",code);
     }
 
     @Override
