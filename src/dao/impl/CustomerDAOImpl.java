@@ -32,7 +32,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public Customer search(String cId, Connection connection) throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.executeQuery(connection,"SELECT * FROM Customer WHERE id =?",cId);
+        ResultSet rst = CrudUtil.executeQuery(connection,"SELECT * FROM Customer WHERE cusId =?",cId);
         if (rst.next()){
             return new Customer(
                     rst.getString(1),

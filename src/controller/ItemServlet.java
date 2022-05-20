@@ -1,17 +1,32 @@
-package Controller;
+package controller;
 
+import bo.custom.CustomerBO;
+import bo.custom.ItemBO;
+import bo.impl.BOFactory;
+import dto.CustomerDTO;
+import dto.ItemDTO;
+import javafx.collections.ObservableList;
+
+import javax.annotation.Resource;
 import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
 @WebServlet(urlPatterns = "/item")
 public class ItemServlet extends HttpServlet {
+
+    @Resource(name = "java:comp/env/jdbc/pool")
+    DataSource dataSource;
+
+    ItemBO itemBO = (ItemBO) BOFactory.getBOFactory().getBO(BOFactory.BoTypes.ITEM);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -55,30 +70,25 @@ public class ItemServlet extends HttpServlet {
 
                     break;
                 case "GETAll":
-                    ResultSet rst = connection.prepareStatement("SELECT * FROM Item").executeQuery();
 
+                    ObservableList<ItemDTO> allItems = itemBO.getAllItem(connection);
                     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
-                    while (rst.next()) {
-                        String code = rst.getString(1);
-                        String name = rst.getString(2);
-                        String price = rst.getString(3);
-                        String qtyOnHand = rst.getString(4);
+                    for (ItemDTO c : allItems) {
+                        JsonObjectBuilder ob = Json.createObjectBuilder();
 
-                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                        objectBuilder.add("code", code);
-                        objectBuilder.add("name", name);
-                        objectBuilder.add("price", price);
-                        objectBuilder.add("qtyOnHand", qtyOnHand);
+                        ob.add("code", c.getCode());
+                        ob.add("name", c.getName());
+                        ob.add("price", c.getPrice());
+                        ob.add("qtyOnHand", c.getQtyOnHand());
 
-                        arrayBuilder.add(objectBuilder.build());
-
+                        arrayBuilder.add(ob.build());
                     }
+
                     JsonObjectBuilder response = Json.createObjectBuilder();
                     response.add("status", 200);
                     response.add("message", "Done");
                     response.add("data", arrayBuilder.build());
-
                     writer.print(response.build());
                     break;
             }
