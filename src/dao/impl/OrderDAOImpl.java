@@ -17,7 +17,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public boolean update(Order order) throws SQLException, ClassNotFoundException {
+    public boolean update(Order order, Connection connection) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -27,7 +27,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public Order search(String s) throws SQLException, ClassNotFoundException {
+    public Order search(String s, Connection connection) throws SQLException, ClassNotFoundException {
         return null;
     }
 

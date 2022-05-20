@@ -41,33 +41,16 @@ public class CustomerServlet extends HttpServlet {
             switch (option) {
                 case "SEARCH":
 
-                    PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM Customer where cusId=?");
-                    preparedStatement.setObject(1,cusId);
+                    CustomerDTO customer = customerBO.searchCustomer(connection,cusId);
 
+                    JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
 
-                    ResultSet resultSet1 = preparedStatement.executeQuery();
-                    JsonArrayBuilder arrayBuilder1 = Json.createArrayBuilder();
+                    objectBuilder.add("id", customer.getId());
+                    objectBuilder.add("name", customer.getName());
+                    objectBuilder.add("address", customer.getAddress());
+                    objectBuilder.add("contact", customer.getContact());
 
-                    while (resultSet1.next()){
-                        String id = resultSet1.getString(1);
-                        String name = resultSet1.getString(2);
-                        String address = resultSet1.getString(3);
-                        String contact = resultSet1.getString(4);
-
-                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                        objectBuilder.add("id", id);
-                        objectBuilder.add("name", name);
-                        objectBuilder.add("address", address);
-                        objectBuilder.add("contact", contact);
-                        arrayBuilder1.add(objectBuilder.build());
-                    }
-
-                    JsonObjectBuilder response1 = Json.createObjectBuilder();
-                    response1.add("status", 200);
-                    response1.add("message", "Done");
-                    response1.add("data", arrayBuilder1.build());
-                    writer.print(response1.build());
-
+                    writer.print(objectBuilder.build());
                     break;
 
                 case "GETAll":

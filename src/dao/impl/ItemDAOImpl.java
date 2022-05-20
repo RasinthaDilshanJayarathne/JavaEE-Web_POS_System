@@ -17,7 +17,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean update(Item item) throws SQLException, ClassNotFoundException {
+    public boolean update(Item item, Connection connection) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -26,9 +26,8 @@ public class ItemDAOImpl implements ItemDAO {
         return false;
     }
 
-
     @Override
-    public Item search(String s) throws SQLException, ClassNotFoundException {
+    public Item search(String s, Connection connection) throws SQLException, ClassNotFoundException {
         return null;
     }
 
