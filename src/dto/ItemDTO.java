@@ -3,17 +3,17 @@ package dto;
 public class ItemDTO {
     private String code;
     private String name;
-    private double price;
+    private int price;
     private int qtyOnHand;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(String code, String name, double price, int qtyOnHand) {
-        this.code = code;
-        this.name = name;
-        this.price = price;
-        this.qtyOnHand = qtyOnHand;
+    public ItemDTO(String code, String name, int price, int qtyOnHand) {
+        this.setCode(code);
+        this.setName(name);
+        this.setPrice(price);
+        this.setQtyOnHand(qtyOnHand);
     }
 
     public String getCode() {
@@ -32,11 +32,11 @@ public class ItemDTO {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

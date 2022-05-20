@@ -17,12 +17,21 @@ function genarateItemCode(){
 }
 
 $("#popItemBtnAdd").click(function () {
-    let data = $("#itemForm").serialize();
-    console.log(data)
+    //let data = $("#itemForm").serialize();
+    console.log("Enter");
+
+    var cusOb={
+        "code":$("#txtPopItemCode").val(),
+        "name":$("#txtPopItemName").val(),
+        "price":$("#txtPopItemPrice").val(),
+        "qtyOnHand":$("#txtPopItemQuntity").val(),
+    }
+
     $.ajax({
         url: "item",
         method: "POST",
-        data: data,
+        contentType:"application/json",
+        data: JSON.stringify(cusOb),
         success:function (res){
             if (res.status==200){
                 alert(res.message);
@@ -143,7 +152,7 @@ $("#btnItemUpdate").click(function (){
 
 var regExItemCode = /^(I00-)[0-9]{3,4}$/;
 var regExItemName = /^[A-z ]{3,20}$/;
-var regExItemPrice = /^[0-9]{2,6}[.][0]$/;
+var regExItemPrice = /^[0-9]{2,6}$/;
 var regExItemQtyOnHand = /^[0-9]{1,3}$/;
 
 $("#txtPopItemName").keyup(function (event) {

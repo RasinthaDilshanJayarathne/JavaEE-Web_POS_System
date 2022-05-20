@@ -76,10 +76,9 @@ $("#btnCustSearch").click(function (){
         url:"customer?option=SEARCH&cusId=" + search,
         method:"GET",
         success: function (resp) {
-            for (const customer of resp.data) {
-                var row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contact}</td></tr>`;
+                var row = `<tr><td>${resp.id}</td><td>${resp.name}</td><td>${resp.address}</td><td>${resp.contact}</td></tr>`;
                 $("#customerTable").append(row);
-            }
+
             bindClickEvent();
         }
     })

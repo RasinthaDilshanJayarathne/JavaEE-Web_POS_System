@@ -26,7 +26,7 @@ public class ItemBOImpl implements ItemBO {
 
         for (Item temp : customers) {
             ItemDTO itemDTO = new ItemDTO(
-                    temp.getCode(),temp.getName(),temp.getPrice(),temp.getQtyOnHand()
+                    temp.getCode(),temp.getName(), (int) temp.getPrice(),temp.getQtyOnHand()
             );
 
             obCusList.add(itemDTO);
@@ -36,12 +36,16 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public boolean addItem(Connection connection, ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
-        return false;
+        Item item = new Item(
+                itemDTO.getCode(),itemDTO.getName(),itemDTO.getPrice(),itemDTO.getQtyOnHand()
+
+        );
+        return itemDAO.add(item,connection);
     }
 
     @Override
     public boolean deleteItem(Connection connection, String id) throws SQLException, ClassNotFoundException {
-        return false;
+        return itemDAO.delete(id,connection);
     }
 
     @Override

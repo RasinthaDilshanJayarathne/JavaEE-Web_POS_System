@@ -102,79 +102,82 @@ public class ItemServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String txtPopItemCode = req.getParameter("txtPopItemCode");
-        String txtPopItemName = req.getParameter("txtPopItemName");
-        String txtPopItemQuntity = req.getParameter("txtPopItemQuntity");
-        String txtPopItemPrice = req.getParameter("txtPopItemPrice");
-
-        System.out.println(txtPopItemCode+""+txtPopItemName+" "+txtPopItemQuntity+" "+txtPopItemPrice );
-
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
+        Connection connection = null;
+
+        JsonReader reader = Json.createReader(req.getReader());
+        JsonObject jsonObject = reader.readObject();
+
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+            connection = dataSource.getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement("INSERT INTO Item VALUES (?,?,?,?)");
-            pstm.setObject(1, txtPopItemCode);
-            pstm.setObject(2, txtPopItemName);
-            pstm.setObject(3, txtPopItemPrice);
-            pstm.setObject(4, txtPopItemQuntity);
+            ItemDTO itemDTO = new ItemDTO(
+                    jsonObject.getString("code"),
+                    jsonObject.getString("name"),
+                    Integer.parseInt(jsonObject.getString("price")),
+                    Integer.parseInt(jsonObject.getString("qtyOnHand"))
+            );
 
-            if (pstm.executeUpdate() > 0) {
-                JsonObjectBuilder response = Json.createObjectBuilder();
-                resp.setStatus(HttpServletResponse.SC_CREATED);
-                response.add("status", 200);
-                response.add("message", "Successfully Added");
-                response.add("data", "");
-                writer.print(response.build());
-            }
+                if (itemBO.addItem(connection, itemDTO)){
+                    JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                    resp.setStatus(HttpServletResponse.SC_CREATED);
+                    objectBuilder.add("status", 200);
+                    objectBuilder.add("message", "Successfully Added");
+                    objectBuilder.add("data", "");
+                    writer.print(objectBuilder.build());
+                }
 
-        } catch (ClassNotFoundException e) {
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 400);
-            response.add("message", "Error");
-            response.add("data", e.getLocalizedMessage());
-            writer.print(response.build());
+            connection.close();
 
+        } catch (SQLException e) {
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 400);
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", e.getLocalizedMessage());
+            writer.print(objectBuilder.build());
             resp.setStatus(HttpServletResponse.SC_OK);
             e.printStackTrace();
-        } catch (SQLException throwables) {
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 400);
-            response.add("message", "Error");
-            response.add("data", throwables.getLocalizedMessage());
-            writer.print(response.build());
 
+        } catch (ClassNotFoundException e) {
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 400);
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", e.getLocalizedMessage());
+            writer.print(objectBuilder.build());
             resp.setStatus(HttpServletResponse.SC_OK);
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Request Delete");
         String itemCode = req.getParameter("code");
 
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+            Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Item WHERE itemCode=?");
-            pstm.setObject(1, itemCode);
+            if (itemBO.deleteItem(connection,itemCode)) {
 
-            if (pstm.executeUpdate() > 0) {
-                JsonObjectBuilder response = Json.createObjectBuilder();
-                resp.setStatus(HttpServletResponse.SC_CREATED);//201
-                response.add("status", 200);
-                response.add("message", "Successfully Deleted");
-                response.add("data", "");
-                writer.print(response.build());
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                resp.setStatus(HttpServletResponse.SC_OK);
+                objectBuilder.add("message","Customer Successfully Deleted.");
+                objectBuilder.add("status",resp.getStatus());
+                writer.print(objectBuilder.build());
+
+            }else {
+
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("message","Wrong Id Inserted.");
+                objectBuilder.add("status",400);
+                writer.print(objectBuilder.build());
+
             }
+            connection.close();
 
         } catch (ClassNotFoundException e) {
             JsonObjectBuilder response = Json.createObjectBuilder();

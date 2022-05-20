@@ -1,7 +1,6 @@
 package dao.impl;
 
 import dao.customer.ItemDAO;
-import entity.Customer;
 import entity.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,13 +8,13 @@ import javafx.collections.ObservableList;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean add(Item item, Connection conection) throws SQLException, ClassNotFoundException {
-        return false;
+        return CrudUtil.executeUpdate(conection,"INSERT INTO Item VALUES(?,?,?,?)",item.getCode(),
+                item.getName(),item.getPrice(),item.getQtyOnHand());
     }
 
     @Override
@@ -24,8 +23,8 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean delete(String s, Connection conection) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean delete(String code, Connection conection) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate(conection,"Delete from Item WHERE code=?",code);
     }
 
     @Override

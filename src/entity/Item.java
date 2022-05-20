@@ -3,13 +3,13 @@ package entity;
 public class Item {
     private String code;
     private String name;
-    private double price;
+    private int price;
     private int qtyOnHand;
 
     public Item() {
     }
 
-    public Item(String code, String name, double price, int qtyOnHand) {
+    public Item(String code, String name, int price, int qtyOnHand) {
         this.code = code;
         this.name = name;
         this.price = price;
@@ -36,7 +36,7 @@ public class Item {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
