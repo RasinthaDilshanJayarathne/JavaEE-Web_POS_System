@@ -3,12 +3,14 @@ package dao.impl;
 import dao.customer.OrderDetailDAO;
 import entity.OrderDetail;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
+
     @Override
-    public boolean add(OrderDetail orderDetail) throws SQLException, ClassNotFoundException {
+    public boolean add(OrderDetail orderDetail, Connection conection) throws SQLException, ClassNotFoundException {
         return false;
     }
 

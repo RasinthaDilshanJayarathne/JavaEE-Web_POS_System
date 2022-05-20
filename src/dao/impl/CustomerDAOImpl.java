@@ -3,13 +3,16 @@ package dao.impl;
 import dao.customer.CustomerDAO;
 import entity.Customer;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CustomerDAOImpl implements CustomerDAO {
+
     @Override
-    public boolean add(Customer customer) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean add(Customer customer, Connection conection) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate(conection,"INSERT INTO Customer VALUES(?,?,?,?)",customer.getId(),
+                customer.getName(),customer.getAddress(),customer.getContact());
     }
 
     @Override

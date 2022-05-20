@@ -3,12 +3,14 @@ package dao.impl;
 import dao.customer.OrderDAO;
 import entity.Order;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDAOImpl implements OrderDAO {
+
     @Override
-    public boolean add(Order order) throws SQLException, ClassNotFoundException {
+    public boolean add(Order order, Connection conection) throws SQLException, ClassNotFoundException {
         return false;
     }
 
