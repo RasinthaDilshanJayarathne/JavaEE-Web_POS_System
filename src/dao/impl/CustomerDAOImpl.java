@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -20,7 +19,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean update(Customer customer, Connection connection) throws SQLException, ClassNotFoundException {
-        return false;
+        return CrudUtil.executeUpdate(connection, "UPDATE Customer SET cusName = ?,cusAddress = ?,cusTp = ? WHERE cusId = ?",customer.getName(),
+                customer.getAddress(),customer.getContact(),customer.getId());
+
     }
 
 

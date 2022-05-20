@@ -86,52 +86,7 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*String customerId = req.getParameter("txtPopCustId");
-        String customerName = req.getParameter("txtPopCustName");
-        String customerAddress = req.getParameter("txtPopCustAddress");
-        String customerContact = req.getParameter("txtPopCustPhone");
 
-        PrintWriter writer = resp.getWriter();
-        resp.setContentType("application/json");
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
-
-            PreparedStatement pstm = connection.prepareStatement("INSERT INTO Customer VALUES (?,?,?,?)");
-            pstm.setObject(1, customerId);
-            pstm.setObject(2, customerName);
-            pstm.setObject(3, customerAddress);
-            pstm.setObject(4, customerContact);
-
-            if (pstm.executeUpdate() > 0) {
-                JsonObjectBuilder response = Json.createObjectBuilder();
-                resp.setStatus(HttpServletResponse.SC_CREATED);
-                response.add("status", 200);
-                response.add("message", "Successfully Added");
-                response.add("data", "");
-                writer.print(response.build());
-            }
-
-        } catch (ClassNotFoundException e) {
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 400);
-            response.add("message", "Error");
-            response.add("data", e.getLocalizedMessage());
-            writer.print(response.build());
-
-            resp.setStatus(HttpServletResponse.SC_OK);
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            JsonObjectBuilder response = Json.createObjectBuilder();
-            response.add("status", 400);
-            response.add("message", "Error");
-            response.add("data", throwables.getLocalizedMessage());
-            writer.print(response.build());
-
-            resp.setStatus(HttpServletResponse.SC_OK);
-            throwables.printStackTrace();
-        }*/
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
@@ -236,31 +191,28 @@ public class CustomerServlet extends HttpServlet {
         JsonReader reader = Json.createReader(req.getReader());
         JsonObject jsonObject = reader.readObject();
 
-        String customerId = jsonObject.getString("id");
-        String customerName = jsonObject.getString("name");
-        String customerAddress = jsonObject.getString("address");
-        String customerContact = jsonObject.getString("contact");
-
         PrintWriter writer = resp.getWriter();
 
         resp.setContentType("application/json");
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/WebSuperMarket", "root", "1234");
+            Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement("Update Customer set cusName=?,cusAddress=?,cusTp=? where cusId=?");
-            pstm.setObject(1, customerName);
-            pstm.setObject(2, customerAddress);
-            pstm.setObject(3, customerContact);
-            pstm.setObject(4, customerId);
+            System.out.println(req.getParameter("postalCode"));
+            CustomerDTO customerDTO = new CustomerDTO(
 
+                    jsonObject.getString("id"),
+                    jsonObject.getString("name"),
+                    jsonObject.getString("address"),
+                    jsonObject.getString("contact")
 
-            if (pstm.executeUpdate() > 0) {
+            );
+
+            if (customerBO.updateCustomer(connection,customerDTO)) {
+                resp.setStatus(HttpServletResponse.SC_OK);
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                objectBuilder.add("status", 200);
-                objectBuilder.add("message", "Successfully Updated");
-                objectBuilder.add("data", "");
+                objectBuilder.add("message","Customer Successfully Updated.");
+                objectBuilder.add("status",resp.getStatus());
                 writer.print(objectBuilder.build());
             } else {
                 JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
