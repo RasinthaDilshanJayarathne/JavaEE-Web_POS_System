@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.customer.ItemDAO;
+import entity.Customer;
 import entity.Item;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,8 +30,18 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public Item search(String s, Connection connection) throws SQLException, ClassNotFoundException {
-        return null;
+    public Item search(String code, Connection connection) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.executeQuery(connection,"SELECT * FROM Item WHERE itemCode =?",code);
+        if (rst.next()){
+            return new Item(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getInt(3),
+                    rst.getInt(4)
+            );
+        }else {
+            return null;
+        }
     }
 
     @Override

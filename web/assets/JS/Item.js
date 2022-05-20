@@ -98,10 +98,8 @@ $("#btnItemSearch").click(function (){
         url:"item?option=SEARCH&code=" + search,
         method:"GET",
         success: function (resp) {
-            for (const item of resp.data) {
-                var row = `<tr><td>${item.code}</td><td>${item.name}</td><td>${item.price}</td><td>${item.qtyOnHand}</td></tr>`;
+                var row = `<tr><td>${resp.code}</td><td>${resp.name}</td><td>${resp.price}</td><td>${resp.qtyOnHand}</td></tr>`;
                 $("#itemTable").append(row);
-            }
             bindClickEvents();
         }
     })

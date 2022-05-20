@@ -10,10 +10,10 @@ public class Item {
     }
 
     public Item(String code, String name, int price, int qtyOnHand) {
-        this.code = code;
-        this.name = name;
-        this.price = price;
-        this.qtyOnHand = qtyOnHand;
+        this.setCode(code);
+        this.setName(name);
+        this.setPrice(price);
+        this.setQtyOnHand(qtyOnHand);
     }
 
     public String getCode() {
@@ -32,7 +32,7 @@ public class Item {
         this.name = name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
@@ -51,10 +51,10 @@ public class Item {
     @Override
     public String toString() {
         return "Item{" +
-                "code='" + code + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", qtyOnHand=" + qtyOnHand +
+                "code='" + getCode() + '\'' +
+                ", name='" + getName() + '\'' +
+                ", price=" + getPrice() +
+                ", qtyOnHand=" + getQtyOnHand() +
                 '}';
     }
 }
