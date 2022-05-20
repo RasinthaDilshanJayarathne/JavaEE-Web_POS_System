@@ -205,20 +205,25 @@ public class CustomerServlet extends HttpServlet {
         resp.setContentType("application/json");
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/WebSuperMarket", "root", "1234");
+            Connection connection = dataSource.getConnection();
 
-            PreparedStatement pstm = connection.prepareStatement("DELETE FROM Customer WHERE cusId=?");
-            pstm.setObject(1, customerId);
+            if (customerBO.deleteCustomer(connection,customerId)) {
 
-            if (pstm.executeUpdate() > 0) {
-                JsonObjectBuilder response = Json.createObjectBuilder();
-                resp.setStatus(HttpServletResponse.SC_CREATED);//201
-                response.add("status", 200);
-                response.add("message", "Successfully Deleted");
-                response.add("data", "");
-                writer.print(response.build());
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                resp.setStatus(HttpServletResponse.SC_OK);
+                objectBuilder.add("message","Customer Successfully Deleted.");
+                objectBuilder.add("status",resp.getStatus());
+                writer.print(objectBuilder.build());
+
+            }else {
+
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("message","Wrong Id Inserted.");
+                objectBuilder.add("status",400);
+                writer.print(objectBuilder.build());
+
             }
+            connection.close();
 
         } catch (ClassNotFoundException e) {
             JsonObjectBuilder response = Json.createObjectBuilder();

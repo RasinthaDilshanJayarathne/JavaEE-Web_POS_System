@@ -2,12 +2,14 @@ package dao.impl;
 
 import dao.customer.ItemDAO;
 import entity.Item;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ItemDAOImpl implements ItemDAO {
+
 
     @Override
     public boolean add(Item item, Connection conection) throws SQLException, ClassNotFoundException {
@@ -20,9 +22,10 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public boolean delete(String s) throws SQLException, ClassNotFoundException {
+    public boolean delete(String s, Connection conection) throws SQLException, ClassNotFoundException {
         return false;
     }
+
 
     @Override
     public Item search(String s) throws SQLException, ClassNotFoundException {
@@ -30,7 +33,7 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public ArrayList<Item> getAll() throws SQLException, ClassNotFoundException {
+    public ObservableList<Item> getAll(Connection connection) throws SQLException, ClassNotFoundException {
         return null;
     }
 }

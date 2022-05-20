@@ -2,10 +2,10 @@ package dao.impl;
 
 import dao.customer.OrderDetailDAO;
 import entity.OrderDetail;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
 
@@ -20,9 +20,10 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public boolean delete(String s) throws SQLException, ClassNotFoundException {
+    public boolean delete(String s, Connection conection) throws SQLException, ClassNotFoundException {
         return false;
     }
+
 
     @Override
     public OrderDetail search(String s) throws SQLException, ClassNotFoundException {
@@ -30,7 +31,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public ArrayList<OrderDetail> getAll() throws SQLException, ClassNotFoundException {
+    public ObservableList<OrderDetail> getAll(Connection connection) throws SQLException, ClassNotFoundException {
         return null;
     }
 }
