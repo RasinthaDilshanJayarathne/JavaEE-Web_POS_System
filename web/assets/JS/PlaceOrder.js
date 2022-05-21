@@ -94,6 +94,59 @@ $("#itemChombo").click(function () {
 });
 
 
+$("#btnPurchase").click(function (){
+
+    var orderDetails=new Array();
+
+    for (let i = 0; i < $("#orderTable tr").length; i++) {
+        var detailOb={
+            orderId:$("#orderId").val(),
+            itemCode:$("#orderTable tr").children(':nth-child(1)')[i].innerText,
+            qty:$("#orderTable tr").children(':nth-child(5)')[i].innerText,
+            price:$("#orderTable tr").children(':nth-child(3)')[i].innerText,
+            total:$("#orderTable tr").children(':nth-child(6)')[i].innerText,
+        }
+
+        orderDetails.push(detailOb);
+    }
+
+    var orderId = $("#orderId").val();
+    var customerId = $("#custChombo option:selected").text();
+    var date = $("#orderDate").val();
+    var total = $("#total").val();
+    var subTotal = $("#subToal").val();
+
+    var orderOb={
+        "orderId":orderId,
+        "customerId":customerId,
+        "date":date,
+        "total":total,
+        "subTotal":subTotal,
+        "detail":orderDetails
+    }
+
+    console.log(orderOb)
+    console.log(orderDetails)
+
+    $.ajax({
+        url: "placeOrder",
+        method: "POST",
+        contentType:"application/json",
+        data: JSON.stringify(orderOb),
+        success:function (res){
+            if (res.status==200){
+                alert(res.message);
+            }else {
+                alert(res.data);
+            }
+        },
+        error: function (ob, textStatus, error) {
+            alert(textStatus);
+        }
+    });
+
+});
+
 let itemCode;
 let subTotal;
 let discount;
@@ -258,8 +311,6 @@ $("#btnPurchase").click(function () {
     //generateOrderID();
     tot = 0;
 });
-
-
 
 $("#orderTable").on('click', '#btnItemCartDelete', function () {
     $(this).closest('tr').remove();

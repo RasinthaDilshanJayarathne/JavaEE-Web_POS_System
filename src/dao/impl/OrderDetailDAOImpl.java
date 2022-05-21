@@ -10,8 +10,9 @@ import java.sql.SQLException;
 public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     @Override
-    public boolean add(OrderDetail orderDetail, Connection conection) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean add(OrderDetail orderDetails, Connection conection) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate(conection,"INSERT INTO `Order Detail` VALUES (?,?,?,?,?)",orderDetails.getOrderId(),
+                orderDetails.getCode(), orderDetails.getOrderQty(), orderDetails.getPrice(), orderDetails.getTotal());
     }
 
     @Override

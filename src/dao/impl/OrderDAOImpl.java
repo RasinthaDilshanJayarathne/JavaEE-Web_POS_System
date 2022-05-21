@@ -6,14 +6,13 @@ import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class OrderDAOImpl implements OrderDAO {
 
-
     @Override
-    public boolean add(Order order, Connection conection) throws SQLException, ClassNotFoundException {
-        return false;
+    public boolean add(Order orders, Connection conection) throws SQLException, ClassNotFoundException {
+        return CrudUtil.executeUpdate(conection,"INSERT INTO `Order` VALUES (?,?,?,?,?)",orders.getOrderId(),
+                orders.getCustomerId(), orders.getOrderDate(), orders.getTotal(), orders.getSubTotal());
     }
 
     @Override
@@ -33,6 +32,16 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public ObservableList<Order> getAll(Connection connection) throws SQLException, ClassNotFoundException {
+        return null;
+    }
+
+    @Override
+    public boolean ifOrderExist(String oid, Connection connection) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
+    public String generateNewOrderId(Connection connection) throws SQLException, ClassNotFoundException {
         return null;
     }
 }

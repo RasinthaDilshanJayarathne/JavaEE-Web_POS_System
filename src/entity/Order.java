@@ -1,24 +1,23 @@
 package entity;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class Order {
     private String orderId;
     private String customerId;
     private LocalDate orderDate;
-    private LocalTime orderTime;
-    private double coust;
+    private int total;
+    private int subTotal;
 
     public Order() {
     }
 
-    public Order(String orderId, String customerId, LocalDate orderDate, LocalTime orderTime, double coust) {
-        this.orderId = orderId;
-        this.customerId = customerId;
-        this.orderDate = orderDate;
-        this.orderTime = orderTime;
-        this.coust = coust;
+    public Order(String orderId, String customerId, LocalDate orderDate,int total, int subTotal) {
+        this.setOrderId(orderId);
+        this.setCustomerId(customerId);
+        this.setOrderDate(orderDate);
+        this.setTotal(total);
+        this.setSubTotal(subTotal);
     }
 
     public String getOrderId() {
@@ -45,20 +44,20 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public LocalTime getOrderTime() {
-        return orderTime;
+    public int getTotal() {
+        return total;
     }
 
-    public void setOrderTime(LocalTime orderTime) {
-        this.orderTime = orderTime;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public double getCoust() {
-        return coust;
+    public int getSubTotal() {
+        return subTotal;
     }
 
-    public void setCoust(double coust) {
-        this.coust = coust;
+    public void setSubTotal(int subTotal) {
+        this.subTotal = subTotal;
     }
 
     @Override
@@ -67,8 +66,8 @@ public class Order {
                 "orderId='" + orderId + '\'' +
                 ", customerId='" + customerId + '\'' +
                 ", orderDate=" + orderDate +
-                ", orderTime=" + orderTime +
-                ", coust=" + coust +
+                ", total=" + total +
+                ", subTotal=" + subTotal +
                 '}';
     }
 }

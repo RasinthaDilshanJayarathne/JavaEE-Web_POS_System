@@ -4,16 +4,18 @@ public class OrderDetail {
     private String code;
     private String orderId;
     private int orderQty;
-    private double price;
+    private int price;
+    private int total;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String code, String orderId, int orderQty, double price) {
-        this.code = code;
-        this.orderId = orderId;
-        this.orderQty = orderQty;
-        this.price = price;
+    public OrderDetail(String code, String orderId, int orderQty, int price, int total) {
+        this.setCode(code);
+        this.setOrderId(orderId);
+        this.setOrderQty(orderQty);
+        this.setPrice(price);
+        this.setTotal(total);
     }
 
     public String getCode() {
@@ -40,12 +42,20 @@ public class OrderDetail {
         this.orderQty = orderQty;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 
     @Override
@@ -55,6 +65,7 @@ public class OrderDetail {
                 ", orderId='" + orderId + '\'' +
                 ", orderQty=" + orderQty +
                 ", price=" + price +
+                ", total=" + total +
                 '}';
     }
 }

@@ -17,8 +17,6 @@ function genarateItemCode(){
 }
 
 $("#popItemBtnAdd").click(function () {
-    //let data = $("#itemForm").serialize();
-    console.log("Enter");
 
     var cusOb={
         "code":$("#txtPopItemCode").val(),
