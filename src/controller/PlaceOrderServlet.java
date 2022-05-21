@@ -62,9 +62,9 @@ public class PlaceOrderServlet extends HttpServlet {
             }
 
             OrderDTO ordersDTO = new OrderDTO(
-                    jsonObject.getString("orderID"),
-                    jsonObject.getString("cId"),
-                    LocalDate.parse(jsonObject.getString("orderDate")),
+                    jsonObject.getString("orderId"),
+                    jsonObject.getString("customerId"),
+                    LocalDate.parse(jsonObject.getString("date")),
                     Integer.parseInt(jsonObject.getString("total")),
                     Integer.parseInt(jsonObject.getString("subTotal")),
                     orderDetailsDTOS
