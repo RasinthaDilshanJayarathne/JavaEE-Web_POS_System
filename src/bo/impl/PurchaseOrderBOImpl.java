@@ -24,8 +24,6 @@ import java.util.ArrayList;
 public class PurchaseOrderBOImpl implements PurchaseOrderBO {
 
     @Resource(name = "java:comp/env/jdbc/pool")
-    DataSource dataSource;
-
 
     private final CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
     private final ItemDAO itemDAO = (ItemDAO) DAOFactory.getDAOFactory().getDAO(DAOFactory.DAOTypes.ITEM);
@@ -35,19 +33,18 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
     @Override
     public boolean saveOrder(Connection connection, OrderDTO ordersDTO) throws SQLException, ClassNotFoundException {
 
-        /*Transaction*/
-        connection = null;
+       /* connection = null;
 
         connection = dataSource.getConnection();
 
         boolean orderAvailable = orderDAO.ifOrderExist(ordersDTO.getOrderId(),connection);
-        /*if order id already exist*/
+
         if (orderAvailable) {
             return false;
         }
 
         connection.setAutoCommit(false);
-        /* Add Order*/
+
         Order order = new Order(ordersDTO.getOrderId(), ordersDTO.getCustomerId(),ordersDTO.getOrderDate(),
                 ordersDTO.getTotal(),ordersDTO.getSubTotal());
         boolean orderAdded = orderDAO.add(order,connection);
@@ -66,7 +63,6 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
                 return false;
             }
 
-            //Search & Update Item
             Item search = itemDAO.search(detail.getCode(),connection);
             search.setQtyOnHand(search.getQtyOnHand() - detail.getOrderQty());
             boolean update = itemDAO.update(search,connection);
@@ -77,9 +73,47 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
             }
         }
 
-        //if every thing ok
         connection.commit();
         connection.setAutoCommit(true);
+        return true;*/
+
+        Connection con = null;
+        try {
+            con = connection;
+            con.setAutoCommit(false);
+
+            boolean ifSaveOrder = orderDAO.add(new Order(
+                            ordersDTO.getOrderId(),
+                            ordersDTO.getCustomerId(),
+                            ordersDTO.getOrderDate(),
+                            ordersDTO.getTotal(),
+                            ordersDTO.getSubTotal()),
+                    connection
+            );
+
+            if (ifSaveOrder){
+                if (saveOrderDetail(connection,ordersDTO)){
+                    con.commit();
+                    return true;
+                }else {
+                    con.rollback();
+                    return false;
+                }
+            }else {
+                con.rollback();
+                return false;
+            }
+        } catch (SQLException throwables) {
+        } finally {
+            try {
+
+                con.setAutoCommit(true);
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
         return true;
     }
 
@@ -87,6 +121,33 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
     public ObservableList<OrderDTO> getAllOrders(Connection connection) throws SQLException, ClassNotFoundException {
         return null;
     }
+
+    @Override
+    public boolean saveOrderDetail(Connection connection, OrderDTO orderDTO) throws SQLException, ClassNotFoundException {
+        for (OrderDetailDTO item : orderDTO.getOrderDetail()) {
+            boolean ifOrderDetailSaved = orderDetailsDAO.add(new OrderDetail(
+                            item.getOrderId(), item.getCode(), item.getOrderQty(), item.getPrice(), item.getTotal()),connection
+            );
+            System.out.println(item.getCode());
+            /*if (ifOrderDetailSaved){
+                if (updateQtyOnHand(connection,item.getCode(),item.getOrderQty())){
+
+                }else {
+                    return false;
+                }
+            }else {
+                return false;
+            }*/
+        }
+        return true;
+
+    }
+
+    @Override
+    public boolean updateQtyOnHand(Connection connection, String id, int qty) throws SQLException, ClassNotFoundException {
+        return itemDAO.updateQtyOnHand(connection,id,qty);
+    }
+
 
     @Override
     public OrderDTO searchOrder(String orderId, Connection connection) throws SQLException, ClassNotFoundException {
