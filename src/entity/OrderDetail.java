@@ -1,45 +1,45 @@
 package entity;
 
 public class OrderDetail {
-    private String code;
-    private String orderId;
-    private int orderQty;
+    private String orderID;
+    private String itemCode;
+    private int qty;
     private int price;
     private int total;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(String code, String orderId, int orderQty, int price, int total) {
-        this.setCode(code);
-        this.setOrderId(orderId);
-        this.setOrderQty(orderQty);
+    public OrderDetail(String orderID, String itemCode, int qty, int price, int total) {
+        this.setOrderID(orderID);
+        this.setItemCode(itemCode);
+        this.setQty(qty);
         this.setPrice(price);
         this.setTotal(total);
     }
 
-    public String getCode() {
-        return code;
+    public String getOrderID() {
+        return orderID;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-    public int getOrderQty() {
-        return orderQty;
+    public int getQty() {
+        return qty;
     }
 
-    public void setOrderQty(int orderQty) {
-        this.orderQty = orderQty;
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 
     public int getPrice() {
@@ -61,9 +61,9 @@ public class OrderDetail {
     @Override
     public String toString() {
         return "OrderDetail{" +
-                "code='" + code + '\'' +
-                ", orderId='" + orderId + '\'' +
-                ", orderQty=" + orderQty +
+                "orderID='" + orderID + '\'' +
+                ", itemCode='" + itemCode + '\'' +
+                ", qty=" + qty +
                 ", price=" + price +
                 ", total=" + total +
                 '}';

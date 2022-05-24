@@ -4,6 +4,7 @@ import bo.custom.PurchaseOrderBO;
 import bo.impl.BOFactory;
 import dto.OrderDTO;
 import dto.OrderDetailDTO;
+import javafx.collections.ObservableList;
 
 import javax.annotation.Resource;
 import javax.json.*;
@@ -31,7 +32,63 @@ public class PlaceOrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
 
+            String option = req.getParameter("option");
+            String orderID = req.getParameter("orderID");
+            resp.setContentType("application/json");
+            Connection connection = dataSource.getConnection();
+            PrintWriter writer = resp.getWriter();
+
+            switch (option){
+
+                case "GETID":
+
+                    JsonObjectBuilder builder = Json.createObjectBuilder();
+                    builder.add("orderID",orderBO.generateNewOrderId(connection));
+                    writer.print(builder.build());
+
+                    break;
+
+                case "GETALL":
+
+                    /*ObservableList<OrderDTO> allOrders = orderBO.getAllOrders(connection);
+                    JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+
+                        for (OrderDTO ordersDTO : allOrders){
+
+                        JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                        objectBuilder.add("orderId", ordersDTO.getOrderId());
+                        objectBuilder.add("cid", ordersDTO.getOrderId());
+                        objectBuilder.add("orderDate", String.valueOf(ordersDTO.getOrderDate()));
+                        objectBuilder.add("total", ordersDTO.getTotal());
+                        objectBuilder.add("discount", ordersDTO.getDiscount());
+                        objectBuilder.add("subTotal", ordersDTO.getSubTotal());
+                        arrayBuilder.add(objectBuilder.build());
+
+                        System.out.println( objectBuilder.add("orderID", ordersDTO.getOrderId()));
+                        System.out.println(objectBuilder.add("cId", ordersDTO.getcId()));
+                        System.out.println(objectBuilder.add("orderDate", String.valueOf(ordersDTO.getOrderDate())));
+                        System.out.println(objectBuilder.add("total", ordersDTO.getTotal()));
+                        System.out.println(objectBuilder.add("discount", ordersDTO.getDiscount()));
+                        System.out.println(objectBuilder.add("subTotal", ordersDTO.getSubTotal()));
+
+                    }
+
+                    JsonObjectBuilder response = Json.createObjectBuilder();
+                    response.add("status", 200);
+                    response.add("message", "Done");
+                    response.add("data", arrayBuilder.build());
+                    writer.print(response.build());*/
+
+                    break;
+            }
+
+            connection.close();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

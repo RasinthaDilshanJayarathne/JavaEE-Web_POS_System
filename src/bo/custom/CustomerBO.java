@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 
 public interface CustomerBO extends SuperBO{
 
-    public ObservableList<CustomerDTO>getAllCustomers(Connection connection) throws SQLException, ClassNotFoundException;
+    ObservableList<CustomerDTO>getAllCustomers(Connection connection) throws SQLException, ClassNotFoundException;
 
     boolean addCustomer(Connection connection, CustomerDTO customerDTO) throws SQLException, ClassNotFoundException;
 

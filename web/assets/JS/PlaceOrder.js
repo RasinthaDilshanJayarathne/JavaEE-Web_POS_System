@@ -1,25 +1,28 @@
-$("#placeOrder").click(function (){
+$("#placeOrder").click(function () {
     loadCustomerComboData();
     loadItemComboData();
+    generateOrderID();
 });
 
-function loadCustomerComboData(){
+generateOrderID();
+
+function loadCustomerComboData() {
     $("#custChombo").empty();
     $("#custChombo").append($("<option></option>").attr("value", 0).text("Select Ids"));
-    var count=1;
-   $.ajax({
-       url:"customer?option=GETAll",
-       method:"GET",
-       success:function (res){
-           for (let customer of res.data){
-               $("#custChombo").append($("<option></option>").attr("value", count).text(customer.id));
+    var count = 1;
+    $.ajax({
+        url: "customer?option=GETAll",
+        method: "GET",
+        success: function (res) {
+            for (let customer of res.data) {
+                $("#custChombo").append($("<option></option>").attr("value", count).text(customer.id));
                 count++;
-           }
-       },
-       error:function (ob, textStatus, error) {
-           alert(textStatus);
-       }
-   })
+            }
+        },
+        error: function (ob, textStatus, error) {
+            alert(textStatus);
+        }
+    })
 }
 
 $("#custChombo").click(function () {
@@ -31,13 +34,13 @@ $("#custChombo").click(function () {
     $.ajax({
         url: "customer?option=GETAll",
         method: "GET",
-        success:function (res){
-            for (const customer of res.data){
-                if(customer.id==cusId){
+        success: function (res) {
+            for (const customer of res.data) {
+                if (customer.id == cusId) {
 
-                    name=customer.name;
-                    address=customer.address;
-                    contact=customer.contact;
+                    name = customer.name;
+                    address = customer.address;
+                    contact = customer.contact;
 
                     $("#orderAddress").val(address);
                     $("#orderTelephoneNo").val(contact);
@@ -48,20 +51,20 @@ $("#custChombo").click(function () {
     })
 });
 
-function loadItemComboData(){
+function loadItemComboData() {
     $("#itemChombo").empty();
     $("#itemChombo").append($("<option></option>").attr("value", 0).text("Select Code"));
-    var count=1;
+    var count = 1;
     $.ajax({
-        url:"item?option=GETAll",
-        method:"GET",
-        success:function (res){
-            for (let item of res.data){
+        url: "item?option=GETAll",
+        method: "GET",
+        success: function (res) {
+            for (let item of res.data) {
                 $("#itemChombo").append($("<option></option>").attr("value", count).text(item.code));
                 count++;
             }
         },
-        error:function (ob, textStatus, error) {
+        error: function (ob, textStatus, error) {
             alert(textStatus);
         }
     })
@@ -76,13 +79,13 @@ $("#itemChombo").click(function () {
     $.ajax({
         url: "item?option=GETAll",
         method: "GET",
-        success:function (res){
-            for (const item of res.data){
-                if(item.code==code){
+        success: function (res) {
+            for (const item of res.data) {
+                if (item.code == code) {
 
-                    name=item.name;
-                    price=item.price;
-                    qtyOnHand=item.qtyOnHand;
+                    name = item.name;
+                    price = item.price;
+                    qtyOnHand = item.qtyOnHand;
 
                     $("#orderItemName").val(name);
                     $("#orderUnitPrice").val(price);
@@ -93,18 +96,43 @@ $("#itemChombo").click(function () {
     })
 });
 
+function generateOrderID() {
+    $("#orderId").val("O00-0001");
+    $.ajax({
+        url: "placeOrder?option=GETID",
+        method: "GET",
+        success: function (resp) {
+            let orderId = resp.orderID;
+            let tempId = parseInt(orderId.split("-")[1]);
+            tempId = tempId + 1;
+            if (tempId <= 9) {
+                $("#orderId").val("O00-000" + tempId);
+            } else if (tempId <= 99) {
+                $("#orderId").val("O00-00" + tempId);
+            } else if (tempId <= 999) {
+                $("#orderId").val("O00-0" + tempId);
+            } else {
+                $("#orderId").val("O00-" + tempId);
+            }
+        },
+        error: function (ob, statusText, error) {
 
-$("#btnPurchase").click(function (){
+        }
+    });
+}
 
-    var orderDetails=new Array();
+
+$("#btnPurchase").click(function () {
+
+    var orderDetails = [];
 
     for (let i = 0; i < $("#orderTable tr").length; i++) {
-        var detailOb={
-            orderId:$("#orderId").val(),
-            itemCode:$("#orderTable tr").children(':nth-child(1)')[i].innerText,
-            qty:$("#orderTable tr").children(':nth-child(5)')[i].innerText,
-            price:$("#orderTable tr").children(':nth-child(3)')[i].innerText,
-            total:$("#orderTable tr").children(':nth-child(6)')[i].innerText,
+        var detailOb = {
+            orderId: $("#orderId").val(),
+            itemCode: $("#orderTable tr").children(':nth-child(1)')[i].innerText,
+            qty: $("#orderTable tr").children(':nth-child(5)')[i].innerText,
+            price: $("#orderTable tr").children(':nth-child(3)')[i].innerText,
+            total: $("#orderTable tr").children(':nth-child(6)')[i].innerText,
         }
 
         orderDetails.push(detailOb);
@@ -116,13 +144,13 @@ $("#btnPurchase").click(function (){
     var total = $("#total").val();
     var subTotal = $("#subToal").val();
 
-    var orderOb={
-        "orderId":orderId,
-        "customerId":customerId,
-        "date":date,
-        "total":total,
-        "subTotal":subTotal,
-        "detail":orderDetails
+    var orderOb = {
+        "orderId": orderId,
+        "customerId": customerId,
+        "date": date,
+        "total": total,
+        "subTotal": subTotal,
+        "detail": orderDetails
     }
 
     console.log(orderOb)
@@ -131,12 +159,13 @@ $("#btnPurchase").click(function (){
     $.ajax({
         url: "placeOrder",
         method: "POST",
-        contentType:"application/json",
+        contentType: "application/json",
         data: JSON.stringify(orderOb),
-        success:function (res){
-            if (res.status==200){
+        success: function (res) {
+            if (res.status == 200) {
                 alert(res.message);
-            }else {
+                generateOrderID();
+            } else {
                 alert(res.data);
             }
         },
@@ -178,6 +207,7 @@ function loadItemData() {
     calculateDiscount();
 
 }
+
 function calculateDiscount() {
     if (tot >= 10000) {
         discount = $("#discountCmb").val((tot / 100) * 20);
@@ -302,7 +332,7 @@ function manageBalence() {
 }
 
 $("#btnPurchase").click(function () {
-   // placeOrder();
+    // placeOrder();
     //pushOrderDetails();
     clearCustomerData();
     manageBalence();

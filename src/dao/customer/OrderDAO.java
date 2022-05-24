@@ -5,7 +5,7 @@ import entity.Order;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public interface OrderDAO extends CrudDAO<Order,String>{
+public interface OrderDAO extends CrudDAO<Order,String,Connection>{
     boolean ifOrderExist(String oid, Connection connection) throws SQLException, ClassNotFoundException;
 
     String generateNewOrderId(Connection connection) throws SQLException, ClassNotFoundException;

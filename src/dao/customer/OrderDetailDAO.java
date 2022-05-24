@@ -2,6 +2,7 @@ package dao.customer;
 
 import entity.OrderDetail;
 
-public interface OrderDetailDAO extends CrudDAO<OrderDetail,String>{
+import java.sql.Connection;
 
+public interface OrderDetailDAO extends CrudDAO<OrderDetail,String, Connection>{
 }

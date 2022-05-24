@@ -5,14 +5,18 @@ import entity.Order;
 import javafx.collections.ObservableList;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public boolean add(Order orders, Connection conection) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(conection,"INSERT INTO `Order` VALUES (?,?,?,?,?)",orders.getOrderId(),
+        boolean b = CrudUtil.executeUpdate(conection, "INSERT INTO `Order` VALUES (?,?,?,?,?)", orders.getOrderId(),
                 orders.getCustomerId(), orders.getOrderDate(), orders.getTotal(), orders.getSubTotal());
+
+        System.out.println(b);
+        return b;
     }
 
     @Override
@@ -42,6 +46,12 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public String generateNewOrderId(Connection connection) throws SQLException, ClassNotFoundException {
-        return null;
+        ResultSet resultSet = CrudUtil.executeQuery(connection, "SELECT orderID FROM `Order` ORDER BY orderID DESC LIMIT 1");
+
+        if (resultSet.next()){
+            return resultSet.getString(1);
+        }else {
+            return null;
+        }
     }
 }

@@ -11,8 +11,8 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     @Override
     public boolean add(OrderDetail orderDetails, Connection conection) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(conection,"INSERT INTO `order detail` VALUES (?,?,?,?,?)",orderDetails.getOrderId(),
-                orderDetails.getCode(), orderDetails.getOrderQty(), orderDetails.getPrice(), orderDetails.getTotal());
+        return CrudUtil.executeUpdate(conection,"INSERT INTO `order detail` VALUES (?,?,?,?,?)",orderDetails.getOrderID(),
+                orderDetails.getItemCode(), orderDetails.getQty(), orderDetails.getPrice(), orderDetails.getTotal());
     }
 
     @Override
