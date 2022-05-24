@@ -1,8 +1,8 @@
 package dto;
 
 public class OrderDetailDTO {
-    private String code;
     private String orderId;
+    private String code;
     private int orderQty;
     private int price;
     private int total;
@@ -10,20 +10,12 @@ public class OrderDetailDTO {
     public OrderDetailDTO() {
     }
 
-    public OrderDetailDTO(String code, String orderId, int orderQty, int price, int total) {
-        this.setCode(code);
+    public OrderDetailDTO(String orderId, String code, int orderQty, int price, int total) {
         this.setOrderId(orderId);
+        this.setCode(code);
         this.setOrderQty(orderQty);
         this.setPrice(price);
         this.setTotal(total);
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getOrderId() {
@@ -32,6 +24,14 @@ public class OrderDetailDTO {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public int getOrderQty() {
@@ -61,8 +61,8 @@ public class OrderDetailDTO {
     @Override
     public String toString() {
         return "OrderDetailDTO{" +
-                "code='" + code + '\'' +
-                ", orderId='" + orderId + '\'' +
+                "orderId='" + orderId + '\'' +
+                ", code='" + code + '\'' +
                 ", orderQty=" + orderQty +
                 ", price=" + price +
                 ", total=" + total +

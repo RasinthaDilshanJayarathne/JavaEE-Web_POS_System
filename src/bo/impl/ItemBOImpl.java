@@ -26,7 +26,7 @@ public class ItemBOImpl implements ItemBO {
 
         for (Item temp : customers) {
             ItemDTO itemDTO = new ItemDTO(
-                    temp.getCode(),temp.getName(), (int) temp.getPrice(),temp.getQtyOnHand()
+                    temp.getItemCode(),temp.getItemName(), (int) temp.getUnitPrice(),temp.getQtyOnHand()
             );
 
             obCusList.add(itemDTO);
@@ -53,7 +53,7 @@ public class ItemBOImpl implements ItemBO {
         Item item = itemDAO.search(code,connection);
 
         ItemDTO itemDTO = new ItemDTO(
-                item.getCode(),item.getName(),item.getPrice(),item.getQtyOnHand()
+                item.getItemCode(),item.getItemName(),item.getUnitPrice(),item.getQtyOnHand()
         );
         return itemDTO;
     }

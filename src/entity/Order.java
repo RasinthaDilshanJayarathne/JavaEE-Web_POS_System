@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Order {
     private String orderId;
-    private String customerId;
+    private String cusId;
     private LocalDate orderDate;
     private int total;
     private int subTotal;
@@ -12,9 +12,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(String orderId, String customerId, LocalDate orderDate,int total, int subTotal) {
+    public Order(String orderId, String cusId, LocalDate orderDate,int total, int subTotal) {
         this.setOrderId(orderId);
-        this.setCustomerId(customerId);
+        this.setCustomerId(cusId);
         this.setOrderDate(orderDate);
         this.setTotal(total);
         this.setSubTotal(subTotal);
@@ -29,11 +29,11 @@ public class Order {
     }
 
     public String getCustomerId() {
-        return customerId;
+        return cusId;
     }
 
     public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+        this.cusId = customerId;
     }
 
     public LocalDate getOrderDate() {
@@ -64,7 +64,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "orderId='" + orderId + '\'' +
-                ", customerId='" + customerId + '\'' +
+                ", customerId='" + cusId + '\'' +
                 ", orderDate=" + orderDate +
                 ", total=" + total +
                 ", subTotal=" + subTotal +

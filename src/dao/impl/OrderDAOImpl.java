@@ -14,8 +14,6 @@ public class OrderDAOImpl implements OrderDAO {
     public boolean add(Order orders, Connection conection) throws SQLException, ClassNotFoundException {
         boolean b = CrudUtil.executeUpdate(conection, "INSERT INTO `Order` VALUES (?,?,?,?,?)", orders.getOrderId(),
                 orders.getCustomerId(), orders.getOrderDate(), orders.getTotal(), orders.getSubTotal());
-
-        System.out.println(b);
         return b;
     }
 

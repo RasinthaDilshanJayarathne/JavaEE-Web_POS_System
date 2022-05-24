@@ -14,14 +14,14 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean add(Item item, Connection conection) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(conection,"INSERT INTO Item VALUES(?,?,?,?)",item.getCode(),
-                item.getName(),item.getPrice(),item.getQtyOnHand());
+        return CrudUtil.executeUpdate(conection,"INSERT INTO Item VALUES(?,?,?,?)",item.getItemCode(),
+                item.getItemName(),item.getUnitPrice(),item.getQtyOnHand());
     }
 
     @Override
     public boolean update(Item item, Connection connection) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection, "UPDATE Item SET itemName = ?,unitPrice = ?,unitPrice = ? WHERE itemCode = ?",item.getName(),
-                item.getPrice(),item.getQtyOnHand(),item.getCode());
+        return CrudUtil.executeUpdate(connection, "UPDATE Item SET itemName = ?,unitPrice = ?,unitPrice = ? WHERE itemCode = ?",item.getItemName(),
+                item.getUnitPrice(),item.getQtyOnHand(),item.getItemCode());
     }
 
     @Override
@@ -65,6 +65,6 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean updateQtyOnHand(Connection connection, String id, int qty) throws SQLException, ClassNotFoundException {
-        return CrudUtil.executeUpdate(connection,"UPDATE Item SET qtyOnHand=(qtyOnHand - " + qty + " )  WHERE itemCode=?",qty);
+        return CrudUtil.executeUpdate(connection,"UPDATE item SET qtyOnHand=(qtyOnHand - " + qty + " )  WHERE itemCode=?",qty);
     }
 }

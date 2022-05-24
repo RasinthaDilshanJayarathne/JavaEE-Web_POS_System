@@ -1,43 +1,43 @@
 package entity;
 
 public class Item {
-    private String code;
-    private String name;
-    private int price;
+    private String itemCode;
+    private String itemName;
+    private int unitPrice;
     private int qtyOnHand;
 
     public Item() {
     }
 
-    public Item(String code, String name, int price, int qtyOnHand) {
-        this.setCode(code);
-        this.setName(name);
-        this.setPrice(price);
+    public Item(String itemCode, String itemName, int unitPrice, int qtyOnHand) {
+        this.setItemCode(itemCode);
+        this.setItemName(itemName);
+        this.setUnitPrice(unitPrice);
         this.setQtyOnHand(qtyOnHand);
     }
 
-    public String getCode() {
-        return code;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public int getPrice() {
-        return price;
+    public int getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
     public int getQtyOnHand() {
@@ -51,10 +51,10 @@ public class Item {
     @Override
     public String toString() {
         return "Item{" +
-                "code='" + getCode() + '\'' +
-                ", name='" + getName() + '\'' +
-                ", price=" + getPrice() +
-                ", qtyOnHand=" + getQtyOnHand() +
+                "itemCode='" + itemCode + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", unitPrice=" + unitPrice +
+                ", qtyOnHand=" + qtyOnHand +
                 '}';
     }
 }
