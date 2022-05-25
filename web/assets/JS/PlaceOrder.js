@@ -121,7 +121,6 @@ function generateOrderID() {
     });
 }
 
-
 $("#btnPurchase").click(function () {
 
     var orderDetails = [];
@@ -175,6 +174,26 @@ $("#btnPurchase").click(function () {
     });
 
 });
+
+$("#btnOrderDetail").click(function (){
+    loadAllOrders();
+});
+
+function loadAllOrders(){
+    $("#orderDetailTable").empty();
+    $.ajax({
+        url: "placeOrder?option=GETALL",
+        method: "GET",
+        success: function (resp) {
+            for (const orders of resp.data) {
+
+                let row = `<tr><td>${orders.orderID}</td><td>${orders.cusId}</td><td>${orders.orderDate}</td><td>
+                ${orders.total}</td><td>${orders.subTotal}</td></tr>`;
+                $("#orderDetailTable").append(row);
+            }
+        }
+    });
+}
 
 let itemCode;
 let subTotal;
@@ -270,6 +289,9 @@ $("#addToCart").click(function () {
 
     });
 });
+
+
+
 
 var tot = 0;
 

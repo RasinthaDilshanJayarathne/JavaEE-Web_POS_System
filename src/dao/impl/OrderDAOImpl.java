@@ -2,11 +2,13 @@ package dao.impl;
 
 import dao.customer.OrderDAO;
 import entity.Order;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class OrderDAOImpl implements OrderDAO {
 
@@ -34,7 +36,20 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public ObservableList<Order> getAll(Connection connection) throws SQLException, ClassNotFoundException {
-        return null;
+        ResultSet resultSet = CrudUtil.executeQuery(connection, "SELECT * FROM `Order`");
+
+        ObservableList<Order> obList = FXCollections.observableArrayList();
+        while (resultSet.next()) {
+            Order orders = new Order(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    LocalDate.parse(resultSet.getString(3)),
+                    resultSet.getInt(4),
+                    resultSet.getInt(5)
+            );
+            obList.add(orders);
+        }
+        return obList;
     }
 
     @Override

@@ -13,6 +13,7 @@ import dto.OrderDetailDTO;
 import entity.Item;
 import entity.Order;
 import entity.OrderDetail;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Connection;
@@ -118,7 +119,17 @@ public class PurchaseOrderBOImpl implements PurchaseOrderBO {
 
     @Override
     public ObservableList<OrderDTO> getAllOrders(Connection connection) throws SQLException, ClassNotFoundException {
-        return null;
+        ObservableList<Order> order = orderDAO.getAll(connection);
+
+        ObservableList<OrderDTO> obList = FXCollections.observableArrayList();
+        for (Order temp : order) {
+            OrderDTO ordersDTO = new OrderDTO(
+                    temp.getOrderId(),temp.getCustomerId(),temp.getOrderDate(),temp.getTotal(), temp.getSubTotal()
+            );
+
+            obList.add(ordersDTO);
+        }
+        return obList;
     }
 
     @Override

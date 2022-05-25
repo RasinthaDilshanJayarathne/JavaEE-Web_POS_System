@@ -11,7 +11,12 @@ public class OrderDTO {
     private int subTotal;
     private ArrayList<OrderDetailDTO>orderDetail;
 
-    public OrderDTO() {
+    public OrderDTO(String orderId, String customerId, LocalDate orderDate, int total, int subTotal) {
+        this.setOrderId(orderId);
+        this.setCustomerId(customerId);
+        this.setOrderDate(orderDate);
+        this.setTotal(total);
+        this.setSubTotal(subTotal);
     }
 
     public OrderDTO(String orderId, String customerId, LocalDate orderDate, int total, int subTotal, ArrayList<OrderDetailDTO> orderDetail) {

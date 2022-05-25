@@ -52,26 +52,18 @@ public class PlaceOrderServlet extends HttpServlet {
 
                 case "GETALL":
 
-                    /*ObservableList<OrderDTO> allOrders = orderBO.getAllOrders(connection);
+                    ObservableList<OrderDTO> allOrders = orderBO.getAllOrders(connection);
                     JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 
                         for (OrderDTO ordersDTO : allOrders){
 
                         JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-                        objectBuilder.add("orderId", ordersDTO.getOrderId());
-                        objectBuilder.add("cid", ordersDTO.getOrderId());
+                        objectBuilder.add("orderID", ordersDTO.getOrderId());
+                        objectBuilder.add("cusId", ordersDTO.getOrderId());
                         objectBuilder.add("orderDate", String.valueOf(ordersDTO.getOrderDate()));
                         objectBuilder.add("total", ordersDTO.getTotal());
-                        objectBuilder.add("discount", ordersDTO.getDiscount());
                         objectBuilder.add("subTotal", ordersDTO.getSubTotal());
                         arrayBuilder.add(objectBuilder.build());
-
-                        System.out.println( objectBuilder.add("orderID", ordersDTO.getOrderId()));
-                        System.out.println(objectBuilder.add("cId", ordersDTO.getcId()));
-                        System.out.println(objectBuilder.add("orderDate", String.valueOf(ordersDTO.getOrderDate())));
-                        System.out.println(objectBuilder.add("total", ordersDTO.getTotal()));
-                        System.out.println(objectBuilder.add("discount", ordersDTO.getDiscount()));
-                        System.out.println(objectBuilder.add("subTotal", ordersDTO.getSubTotal()));
 
                     }
 
@@ -79,7 +71,7 @@ public class PlaceOrderServlet extends HttpServlet {
                     response.add("status", 200);
                     response.add("message", "Done");
                     response.add("data", arrayBuilder.build());
-                    writer.print(response.build());*/
+                    writer.print(response.build());
 
                     break;
             }
